@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Review Tables - {{ doc_id }}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        .header {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 5px solid #0366d6;
+        }
+        .document-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .document-info div {
+            flex: 1;
+            min-width: 200px;
+        }
+        .table-container {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .table-info {
+            margin-bottom: 10px;
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            position: sticky;
+            top: 0;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        .editable {
+            background-color: #fff8dc;
+        }
+        .readonly {
+            background-color: #f8f8f8;
+            color: #666;
+        }
+        .button-container {
+            text-align: right;
+            margin-top: 10px;
+        }
+        .save-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .save-button:hover {
+            background-color: #45a049;
+        }
+        .status-message {
+            margin-top: 10px;
+            padding: 8px;
+            border-radius: 4px;
+            display: none;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .no-tables {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+            margin: 20px 0;
+            border: 1px dashed #ddd;
+        }
+        .table-responsive {
+            overflow-x: auto;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Financial Document Table Review</h1>
+        <div class="document-info">
+            <div>
+                <p><strong>Company:</strong> {{ company_name }}</p>
+                <p><strong>Quarter:</strong> {{ quarter }}</p>
+            </div>
+            <div>
+                <p><strong>Document Type:</strong> {{ document_type }}</p>
+                <p><a href="/extract-document?company_name={{ company_name }}&quarter={{ quarter }}&document_type={{ document_type }}&regenerate=true" target="_blank">Re-extract Document</a></p>
+            </div>
+        </div>
+    </div>
+    
+    {% if tables_by_page %}
+        {% for table in tables_by_page %}
+        <div class="table-container" id="table-{{ table.table_id }}">
+            <div class="table-info">
+                <h2>Page {{ table.page_number }} - Table {{ table.table_id.split('_')[1]|int + 1 }}</h2>
+                <p><strong>Page Summary:</strong> {{ table.page_summary }}</p>
+                <p><strong>Table Caption:</strong> <input type="text" id="caption-{{ table.table_id }}" value="{{ table.table_caption }}" style="width: 80%;"></p>
+                <p><strong>Table Description:</strong> <input type="text" id="summary-{{ table.table_id }}" value="{{ table.table_summary }}" style="width: 80%;"></p>
+            </div>
+            
+            <div class="table-responsive">
+                {% if table.table_content %}
+                <table>
+                    {% for row in table.table_content %}
+                    <tr>
+                        {% set row_loop = loop %}
+                        {% for cell in row %}
+                        <td>
+                            <input type="text" 
+                                id="cell-{{ table.table_id }}-{{ row_loop.index0 }}-{{ loop.index0 }}"
+                                value="{{ cell }}" 
+                                class="{% if row_loop.index0 == 0 or loop.index0 == 0 %}readonly{% else %}{% if cell|is_numeric %}editable{% else %}readonly{% endif %}{% endif %}"
+                                {% if row_loop.index0 == 0 or loop.index0 == 0 %}readonly{% endif %}>
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% else %}
+                <div class="no-tables">
+                    <p>No table content found on this page.</p>
+                    <p>You may need to re-extract the document or verify the content.</p>
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="button-container">
+                <button onclick="saveTable('{{ doc_id }}', '{{ table.table_id }}')" class="save-button">Save Changes</button>
+            </div>
+            <div id="status-{{ table.table_id }}" class="status-message"></div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="no-tables">
+            <h2>No Tables Found</h2>
+            <p>No tables were found in this document. You may need to re-extract the document.</p>
+            <p><a href="/extract-document?company_name={{ company_name }}&quarter={{ quarter }}&document_type={{ document_type }}&regenerate=true">Re-extract Document</a></p>
+        </div>
+    {% endif %}
+    
+    <script>
+        function saveTable(docId, tableId) {
+            // Get table caption and summary
+            const tableCaption = document.getElementById(`caption-${tableId}`).value;
+            const tableSummary = document.getElementById(`summary-${tableId}`).value;
+            
+            // Build table data from inputs
+            const tableData = [];
+            const table = document.querySelector(`#table-${tableId} table`);
+            
+            if (!table) {
+                showStatus(tableId, "No table content to save", "error");
+                return;
+            }
+            
+            const rows = table.querySelectorAll('tr');
+            rows.forEach((row, rowIndex) => {
+                const rowData = [];
+                const cells = row.querySelectorAll('input');
+                cells.forEach((cell) => {
+                    rowData.push(cell.value);
+                });
+                tableData.push(rowData);
+            });
+            
+            // Prepare the data to send
+            const updatedTable = {
+                table_caption: tableCaption,
+                table_summary: tableSummary,
+                table_content: tableData
+            };
+            
+            // Show loading state
+            showStatus(tableId, "Saving changes...", "");
+            
+            // Send the data to the server
+            fetch(`/update-table/${docId}/${tableId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedTable),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                showStatus(tableId, "Table saved successfully!", "success");
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                showStatus(tableId, `Error saving table: ${error.message}`, "error");
+                console.error('Error:', error);
+            });
+        }
+        
+        function showStatus(tableId, message, type) {
+            const statusDiv = document.getElementById(`status-${tableId}`);
+            statusDiv.textContent = message;
+            statusDiv.className = "status-message";
+            
+            if (type) {
+                statusDiv.classList.add(type);
+            }
+            
+            statusDiv.style.display = "block";
+            
+            if (type === "success") {
+                setTimeout(() => {
+                    statusDiv.style.display = "none";
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Financial Statements - {{ company_name }} - {{ quarter }}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        .header {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 5px solid #0366d6;
+        }
+        .document-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .document-info div {
+            flex: 1;
+            min-width: 200px;
+        }
+        .statement-container {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .statement-info {
+            margin-bottom: 10px;
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            position: sticky;
+            top: 0;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        .editable {
+            background-color: #fff8dc;
+        }
+        .readonly {
+            background-color: #f8f8f8;
+            color: #666;
+        }
+        .button-container {
+            text-align: right;
+            margin-top: 10px;
+        }
+        .save-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .save-button:hover {
+            background-color: #45a049;
+        }
+        .status-message {
+            margin-top: 10px;
+            padding: 8px;
+            border-radius: 4px;
+            display: none;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .section-title {
+            font-weight: bold;
+            margin-top: 10px;
+            background-color: #eef5ff;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+            border-radius: 5px 5px 0 0;
+        }
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 10px 16px;
+            transition: 0.3s;
+        }
+        .tab button:hover {
+            background-color: #ddd;
+        }
+        .tab button.active {
+            background-color: #0366d6;
+            color: white;
+        }
+        .tabcontent {
+            display: none;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+        }
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        .item-name {
+            flex: 2;
+            font-weight: 500;
+        }
+        .item-value {
+            flex: 1;
+            text-align: right;
+        }
+        .subsection {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Financial Statements Editor</h1>
+        <div class="document-info">
+            <div>
+                <p><strong>Company:</strong> {{ company_name }}</p>
+                <p><strong>Primary Quarter:</strong> {{ quarter }}</p>
+                <p><strong>Available Periods:</strong> {{ available_periods|join(', ') }}</p>
+            </div>
+            <div>
+                <p><a href="/extract-financial-statements?company_name={{ company_name }}&quarter={{ quarter }}&regenerate=true" target="_blank">Re-extract Financial Statements</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tab Navigation -->
+    <div class="tab">
+        <button class="tablinks" onclick="openStatement(event, 'standalone-pl')" id="default-tab">Standalone Profit & Loss</button>
+        <button class="tablinks" onclick="openStatement(event, 'consolidated-pl')">Consolidated Profit & Loss</button>
+        <button class="tablinks" onclick="openStatement(event, 'standalone-segment')">Standalone Segment Info</button>
+        <button class="tablinks" onclick="openStatement(event, 'consolidated-segment')">Consolidated Segment Info</button>
+    </div>
+
+    <!-- Standalone Profit & Loss Tab -->
+    <div id="standalone-pl" class="tabcontent">
+        {% for period in available_periods %}
+            <div class="statement-container">
+                <div class="statement-info">
+                    <h2>Standalone Profit & Loss Statement - {{ period }}</h2>
+                    <p><strong>Period:</strong> {{ financial_data[period].periodStart }} to {{ financial_data[period].periodEnd }}</p>
+                    <p><strong>Currency:</strong> {{ financial_data[period].currency }}</p>
+                    <p><strong>Unit:</strong> {{ financial_data[period].unit }}</p>
+                </div>
+                
+                {% if financial_data[period].standalone_profit_and_loss %}
+                    <div class="statement-section">
+                        <div class="section-title">Revenue</div>
+                        <div class="subsection">
+                            <div class="item-row">
+                                <div class="item-name">Sales from Products & Services</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-pl-revenue-sales_from_products_services" 
+                                        value="{{ financial_data[period].standalone_profit_and_loss.revenue.sales_from_products_services }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Other Operating Revenue</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-pl-revenue-other_operating_revenue" 
+                                        value="{{ financial_data[period].standalone_profit_and_loss.revenue.other_operating_revenue or 0.0 }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Other Income</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-pl-revenue-other_income" 
+                                        value="{{ financial_data[period].standalone_profit_and_loss.revenue.other_income }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Total Income</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-pl-revenue-total_income" 
+                                        value="{{ financial_data[period].standalone_profit_and_loss.revenue.total_income }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            
+                            <!-- Other Revenue Metrics -->
+                            {% if financial_data[period].standalone_profit_and_loss.revenue.other_metrics %}
+                            <div class="section-title">Other Revenue Metrics</div>
+                            {% for metric_key, metric in financial_data[period].standalone_profit_and_loss.revenue.other_metrics.items() %}
+                            <div class="item-row">
+                                <div class="item-name">{{ metric.description }}</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-pl-revenue-other_metrics-{{ metric.name }}" 
+                                        value="{{ metric.value }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        <div class="section-title">Expenses</div>
+                        <div class="subsection">
+                            <div class="item-row">
+                                <div class="item-name">Cost of Materials Consumed</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-pl-expenses-cost_of_materials_consumed" 
+                                        value="{{ financial_data[period].standalone_profit_and_loss.expenses.cost_of_materials_consumed or 0.0 }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Purchases of Stock-in-Trade</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-pl-expenses-purchases_of_stock_in_trade" 
+                                        value="{{ financial_data[period].standalone_profit_and_loss.expenses.purchases_of_stock_in_trade or 0.0 }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Changes in Inventories</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-pl-expenses-changes_in_inventories" 
+                                        value="{{ financial_data[period].standalone_profit_and_loss.expenses.changes_in_inventories or 0.0 }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Employee Benefit Expense</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-pl-expenses-employee_benefit_expense" 
+                                        value="{{ financial_data[period].standalone_profit_and_loss.expenses.employee_benefit_expense }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Finance Costs</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-pl-expenses-finance_costs" 
+                                        value="{{ financial_data[period].standalone_profit_and_loss.expenses.finance_costs }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Depreciation and Amortisation</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-pl-expenses-depreciation_and_amortisation" 
+                                        value="{{ financial_data[period].standalone_profit_and_loss.expenses.depreciation_and_amortisation }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Other Expenses</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-pl-expenses-other_expenses" 
+                                        value="{{ financial_data[period].standalone_profit_and_loss.expenses.other_expenses }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Exceptional/Extraordinary Items</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-pl-expenses-exceptional_extraordinary_items" 
+                                        value="{{ financial_data[period].standalone_profit_and_loss.expenses.exceptional_extraordinary_items or 0.0 }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Total Expenses</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-pl-expenses-total_expenses" 
+                                        value="{{ financial_data[period].standalone_profit_and_loss.expenses.total_expenses }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            
+                            <!-- Other Expense Metrics -->
+                            {% if financial_data[period].standalone_profit_and_loss.expenses.other_metrics %}
+                            <div class="section-title">Other Expense Metrics</div>
+                            {% for metric_key, metric in financial_data[period].standalone_profit_and_loss.expenses.other_metrics.items() %}
+                            <div class="item-row">
+                                <div class="item-name">{{ metric.description }}</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-pl-expenses-other_metrics-{{ metric.name }}" 
+                                        value="{{ metric.value }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        <div class="section-title">Profit Before Tax</div>
+                        <div class="subsection">
+                            <div class="item-row">
+                                <div class="item-name">Profit Before Tax</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-pl-profit_before_tax-profit_before_tax" 
+                                        value="{{ financial_data[period].standalone_profit_and_loss.profit_before_tax.profit_before_tax }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            
+                            <!-- Other Profit Before Tax Metrics -->
+                            {% if financial_data[period].standalone_profit_and_loss.profit_before_tax.other_metrics %}
+                            <div class="section-title">Other Profit Before Tax Metrics</div>
+                            {% for metric_key, metric in financial_data[period].standalone_profit_and_loss.profit_before_tax.other_metrics.items() %}
+                            <div class="item-row">
+                                <div class="item-name">{{ metric.description }}</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-pl-profit_before_tax-other_metrics-{{ metric.name }}" 
+                                        value="{{ metric.value }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        <div class="section-title">Tax Expense</div>
+                        <div class="subsection">
+                            <div class="item-row">
+                                <div class="item-name">Current Tax</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-pl-tax_expense-current_tax" 
+                                        value="{{ financial_data[period].standalone_profit_and_loss.tax_expense.current_tax }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Deferred Tax</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-pl-tax_expense-deferred_tax" 
+                                        value="{{ financial_data[period].standalone_profit_and_loss.tax_expense.deferred_tax }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Total Tax Expense</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-pl-tax_expense-total_tax_expense" 
+                                        value="{{ financial_data[period].standalone_profit_and_loss.tax_expense.total_tax_expense or 0.0 }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            
+                            <!-- Other Tax Expense Metrics -->
+                            {% if financial_data[period].standalone_profit_and_loss.tax_expense.other_metrics %}
+                            <div class="section-title">Other Tax Expense Metrics</div>
+                            {% for metric_key, metric in financial_data[period].standalone_profit_and_loss.tax_expense.other_metrics.items() %}
+                            <div class="item-row">
+                                <div class="item-name">{{ metric.description }}</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-pl-tax_expense-other_metrics-{{ metric.name }}" 
+                                        value="{{ metric.value }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        <div class="section-title">Profit After Tax</div>
+                        <div class="subsection">
+                            <div class="item-row">
+                                <div class="item-name">Profit After Tax</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-pl-profit_after_tax-profit_after_tax" 
+                                        value="{{ financial_data[period].standalone_profit_and_loss.profit_after_tax.profit_after_tax }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            
+                            <!-- Other Profit After Tax Metrics -->
+                            {% if financial_data[period].standalone_profit_and_loss.profit_after_tax.other_metrics %}
+                            <div class="section-title">Other Profit After Tax Metrics</div>
+                            {% for metric_key, metric in financial_data[period].standalone_profit_and_loss.profit_after_tax.other_metrics.items() %}
+                            <div class="item-row">
+                                <div class="item-name">{{ metric.description }}</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-pl-profit_after_tax-other_metrics-{{ metric.name }}" 
+                                        value="{{ metric.value }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="no-tables">
+                        <p>No Standalone Profit & Loss Statement found for {{ period }}.</p>
+                    </div>
+                {% endif %}
+                
+                <div class="button-container">
+                    <button onclick="saveFinancialStatement('{{ period }}', 'standalone-pl')" class="save-button">Save Changes for {{ period }}</button>
+                </div>
+                <div id="{{ period }}-standalone-pl-status" class="status-message"></div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Consolidated Profit & Loss Tab -->
+    <div id="consolidated-pl" class="tabcontent">
+        {% for period in available_periods %}
+            <div class="statement-container">
+                <div class="statement-info">
+                    <h2>Consolidated Profit & Loss Statement - {{ period }}</h2>
+                    <p><strong>Period:</strong> {{ financial_data[period].periodStart }} to {{ financial_data[period].periodEnd }}</p>
+                    <p><strong>Currency:</strong> {{ financial_data[period].currency }}</p>
+                    <p><strong>Unit:</strong> {{ financial_data[period].unit }}</p>
+                </div>
+                
+                {% if financial_data[period].consolidated_profit_and_loss %}
+                    <div class="statement-section">
+                        <div class="section-title">Revenue</div>
+                        <div class="subsection">
+                            <div class="item-row">
+                                <div class="item-name">Sales from Products & Services</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-pl-revenue-sales_from_products_services" 
+                                        value="{{ financial_data[period].consolidated_profit_and_loss.revenue.sales_from_products_services }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Other Operating Revenue</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-pl-revenue-other_operating_revenue" 
+                                        value="{{ financial_data[period].consolidated_profit_and_loss.revenue.other_operating_revenue or 0.0 }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Other Income</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-pl-revenue-other_income" 
+                                        value="{{ financial_data[period].consolidated_profit_and_loss.revenue.other_income }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Total Income</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-pl-revenue-total_income" 
+                                        value="{{ financial_data[period].consolidated_profit_and_loss.revenue.total_income }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            
+                            <!-- Other Consolidated Revenue Metrics -->
+                            {% if financial_data[period].consolidated_profit_and_loss.revenue.other_metrics %}
+                            <div class="section-title">Other Revenue Metrics</div>
+                            {% for metric_key, metric in financial_data[period].consolidated_profit_and_loss.revenue.other_metrics.items() %}
+                            <div class="item-row">
+                                <div class="item-name">{{ metric.description }}</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-pl-revenue-other_metrics-{{ metric.name }}" 
+                                        value="{{ metric.value }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        <div class="section-title">Expenses</div>
+                        <div class="subsection">
+                            <div class="item-row">
+                                <div class="item-name">Cost of Materials Consumed</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-pl-expenses-cost_of_materials_consumed" 
+                                        value="{{ financial_data[period].consolidated_profit_and_loss.expenses.cost_of_materials_consumed or 0.0 }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Purchases of Stock-in-Trade</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-pl-expenses-purchases_of_stock_in_trade" 
+                                        value="{{ financial_data[period].consolidated_profit_and_loss.expenses.purchases_of_stock_in_trade or 0.0 }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Changes in Inventories</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-pl-expenses-changes_in_inventories" 
+                                        value="{{ financial_data[period].consolidated_profit_and_loss.expenses.changes_in_inventories or 0.0 }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Employee Benefit Expense</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-pl-expenses-employee_benefit_expense" 
+                                        value="{{ financial_data[period].consolidated_profit_and_loss.expenses.employee_benefit_expense }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Finance Costs</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-pl-expenses-finance_costs" 
+                                        value="{{ financial_data[period].consolidated_profit_and_loss.expenses.finance_costs }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Depreciation and Amortisation</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-pl-expenses-depreciation_and_amortisation" 
+                                        value="{{ financial_data[period].consolidated_profit_and_loss.expenses.depreciation_and_amortisation }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Other Expenses</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-pl-expenses-other_expenses" 
+                                        value="{{ financial_data[period].consolidated_profit_and_loss.expenses.other_expenses }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Exceptional/Extraordinary Items</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-pl-expenses-exceptional_extraordinary_items" 
+                                        value="{{ financial_data[period].consolidated_profit_and_loss.expenses.exceptional_extraordinary_items or 0.0 }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Total Expenses</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-pl-expenses-total_expenses" 
+                                        value="{{ financial_data[period].consolidated_profit_and_loss.expenses.total_expenses }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            
+                            <!-- Other Expense Metrics -->
+                            {% if financial_data[period].consolidated_profit_and_loss.expenses.other_metrics %}
+                            <div class="section-title">Other Expense Metrics</div>
+                            {% for metric_key, metric in financial_data[period].consolidated_profit_and_loss.expenses.other_metrics.items() %}
+                            <div class="item-row">
+                                <div class="item-name">{{ metric.description }}</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-pl-expenses-other_metrics-{{ metric.name }}" 
+                                        value="{{ metric.value }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        <div class="section-title">Profit Before Tax</div>
+                        <div class="subsection">
+                            <div class="item-row">
+                                <div class="item-name">Profit Before Tax</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-pl-profit_before_tax-profit_before_tax" 
+                                        value="{{ financial_data[period].consolidated_profit_and_loss.profit_before_tax.profit_before_tax }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            
+                            <!-- Other Profit Before Tax Metrics -->
+                            {% if financial_data[period].consolidated_profit_and_loss.profit_before_tax.other_metrics %}
+                            <div class="section-title">Other Profit Before Tax Metrics</div>
+                            {% for metric_key, metric in financial_data[period].consolidated_profit_and_loss.profit_before_tax.other_metrics.items() %}
+                            <div class="item-row">
+                                <div class="item-name">{{ metric.description }}</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-pl-profit_before_tax-other_metrics-{{ metric.name }}" 
+                                        value="{{ metric.value }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        <div class="section-title">Tax Expense</div>
+                        <div class="subsection">
+                            <div class="item-row">
+                                <div class="item-name">Current Tax</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-pl-tax_expense-current_tax" 
+                                        value="{{ financial_data[period].consolidated_profit_and_loss.tax_expense.current_tax }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Deferred Tax</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-pl-tax_expense-deferred_tax" 
+                                        value="{{ financial_data[period].consolidated_profit_and_loss.tax_expense.deferred_tax }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Total Tax Expense</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-pl-tax_expense-total_tax_expense" 
+                                        value="{{ financial_data[period].consolidated_profit_and_loss.tax_expense.total_tax_expense or 0.0 }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            
+                            <!-- Other Tax Expense Metrics -->
+                            {% if financial_data[period].consolidated_profit_and_loss.tax_expense.other_metrics %}
+                            <div class="section-title">Other Tax Expense Metrics</div>
+                            {% for metric_key, metric in financial_data[period].consolidated_profit_and_loss.tax_expense.other_metrics.items() %}
+                            <div class="item-row">
+                                <div class="item-name">{{ metric.description }}</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-pl-tax_expense-other_metrics-{{ metric.name }}" 
+                                        value="{{ metric.value }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        <div class="section-title">Profit After Tax</div>
+                        <div class="subsection">
+                            <div class="item-row">
+                                <div class="item-name">Profit After Tax</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-pl-profit_after_tax-profit_after_tax" 
+                                        value="{{ financial_data[period].consolidated_profit_and_loss.profit_after_tax.profit_after_tax }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            
+                            <!-- Other Profit After Tax Metrics -->
+                            {% if financial_data[period].consolidated_profit_and_loss.profit_after_tax.other_metrics %}
+                            <div class="section-title">Other Profit After Tax Metrics</div>
+                            {% for metric_key, metric in financial_data[period].consolidated_profit_and_loss.profit_after_tax.other_metrics.items() %}
+                            <div class="item-row">
+                                <div class="item-name">{{ metric.description }}</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-pl-profit_after_tax-other_metrics-{{ metric.name }}" 
+                                        value="{{ metric.value }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="no-tables">
+                        <p>No Consolidated Profit & Loss Statement found for {{ period }}.</p>
+                    </div>
+                {% endif %}
+                
+                <div class="button-container">
+                    <button onclick="saveFinancialStatement('{{ period }}', 'consolidated-pl')" class="save-button">Save Changes for {{ period }}</button>
+                </div>
+                <div id="{{ period }}-consolidated-pl-status" class="status-message"></div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Standalone Segment Information Tab -->
+    <div id="standalone-segment" class="tabcontent">
+        {% for period in available_periods %}
+            <div class="statement-container">
+                <div class="statement-info">
+                    <h2>Standalone Segment Information - {{ period }}</h2>
+                    <p><strong>Period:</strong> {{ financial_data[period].periodStart }} to {{ financial_data[period].periodEnd }}</p>
+                </div>
+                
+                {% if financial_data[period].standalone_segment_information %}
+                    <div class="statement-section">
+                        <div class="section-title">Segment Revenues</div>
+                        <div class="subsection">
+                            {% for segment, value in financial_data[period].standalone_segment_information.segment_revenues.items() %}
+                            <div class="item-row">
+                                <div class="item-name">{{ segment }}</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-segment-revenues-{{ segment }}" 
+                                        value="{{ value }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="item-row">
+                                <div class="item-name">Total Revenue from Operations</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-segment-total_revenue_from_operations" 
+                                        value="{{ financial_data[period].standalone_segment_information.total_revenue_from_operations }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="section-title">Segment Results</div>
+                        <div class="subsection">
+                            {% for segment, value in financial_data[period].standalone_segment_information.segment_results.items() %}
+                            <div class="item-row">
+                                <div class="item-name">{{ segment }}</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-segment-results-{{ segment }}" 
+                                        value="{{ value }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="item-row">
+                                <div class="item-name">Total Segment Profit before Interest & Tax</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-segment-total_segment_profit_before_interest_tax" 
+                                        value="{{ financial_data[period].standalone_segment_information.total_segment_profit_before_interest_tax }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Adding Missing Financial Data Fields -->
+                        <div class="section-title">Financial Data</div>
+                        <div class="subsection">
+                            <div class="item-row">
+                                <div class="item-name">Finance Costs</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-segment-finance_costs" 
+                                        value="{{ financial_data[period].standalone_segment_information.finance_costs }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Unallocable Corporate Expenses</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-segment-unallocable_corporate_expenses" 
+                                        value="{{ financial_data[period].standalone_segment_information.unallocable_corporate_expenses }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Profit Before Tax</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-segment-profit_before_tax" 
+                                        value="{{ financial_data[period].standalone_segment_information.profit_before_tax }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Adding Segment Assets -->
+                        <div class="section-title">Segment Assets</div>
+                        <div class="subsection">
+                            {% for segment, value in financial_data[period].standalone_segment_information.segment_assets.items() %}
+                            <div class="item-row">
+                                <div class="item-name">{{ segment }}</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-segment-assets-{{ segment }}" 
+                                        value="{{ value }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="item-row">
+                                <div class="item-name">Unallocated Assets</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-segment-unallocated_assets" 
+                                        value="{{ financial_data[period].standalone_segment_information.unallocated_assets }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Total Assets</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-segment-total_assets" 
+                                        value="{{ financial_data[period].standalone_segment_information.total_assets }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Adding Segment Liabilities -->
+                        <div class="section-title">Segment Liabilities</div>
+                        <div class="subsection">
+                            {% for segment, value in financial_data[period].standalone_segment_information.segment_liabilities.items() %}
+                            <div class="item-row">
+                                <div class="item-name">{{ segment }}</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-segment-liabilities-{{ segment }}" 
+                                        value="{{ value }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="item-row">
+                                <div class="item-name">Unallocated Liabilities</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-segment-unallocated_liabilities" 
+                                        value="{{ financial_data[period].standalone_segment_information.unallocated_liabilities }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Total Liabilities</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-segment-total_liabilities" 
+                                        value="{{ financial_data[period].standalone_segment_information.total_liabilities }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Adding Other Metrics -->
+                        {% if financial_data[period].standalone_segment_information.other_metrics %}
+                        <div class="section-title">Other Metrics</div>
+                        <div class="subsection">
+                            {% for metric_key, metric in financial_data[period].standalone_segment_information.other_metrics.items() %}
+                            <div class="item-row">
+                                <div class="item-name">{{ metric.description }}</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-standalone-segment-other_metrics-{{ metric.name }}" 
+                                        value="{{ metric.value }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="no-tables">
+                        <p>No Standalone Segment Information found for {{ period }}.</p>
+                    </div>
+                {% endif %}
+                
+                <div class="button-container">
+                    <button onclick="saveFinancialStatement('{{ period }}', 'standalone-segment')" class="save-button">Save Changes for {{ period }}</button>
+                </div>
+                <div id="{{ period }}-standalone-segment-status" class="status-message"></div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Consolidated Segment Information Tab -->
+    <div id="consolidated-segment" class="tabcontent">
+        {% for period in available_periods %}
+            <div class="statement-container">
+                <div class="statement-info">
+                    <h2>Consolidated Segment Information - {{ period }}</h2>
+                    <p><strong>Period:</strong> {{ financial_data[period].periodStart }} to {{ financial_data[period].periodEnd }}</p>
+                </div>
+                
+                {% if financial_data[period].consolidated_segment_information %}
+                    <div class="statement-section">
+                        <div class="section-title">Segment Revenues</div>
+                        <div class="subsection">
+                            {% for segment, value in financial_data[period].consolidated_segment_information.segment_revenues.items() %}
+                            <div class="item-row">
+                                <div class="item-name">{{ segment }}</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-segment-revenues-{{ segment }}" 
+                                        value="{{ value }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="item-row">
+                                <div class="item-name">Total Revenue from Operations</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-segment-total_revenue_from_operations" 
+                                        value="{{ financial_data[period].consolidated_segment_information.total_revenue_from_operations }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="section-title">Segment Results</div>
+                        <div class="subsection">
+                            {% for segment, value in financial_data[period].consolidated_segment_information.segment_results.items() %}
+                            <div class="item-row">
+                                <div class="item-name">{{ segment }}</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-segment-results-{{ segment }}" 
+                                        value="{{ value }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="item-row">
+                                <div class="item-name">Total Segment Profit before Interest & Tax</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-segment-total_segment_profit_before_interest_tax" 
+                                        value="{{ financial_data[period].consolidated_segment_information.total_segment_profit_before_interest_tax }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Adding Missing Financial Data Fields -->
+                        <div class="section-title">Financial Data</div>
+                        <div class="subsection">
+                            <div class="item-row">
+                                <div class="item-name">Finance Costs</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-segment-finance_costs" 
+                                        value="{{ financial_data[period].consolidated_segment_information.finance_costs }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Unallocable Corporate Expenses</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-segment-unallocable_corporate_expenses" 
+                                        value="{{ financial_data[period].consolidated_segment_information.unallocable_corporate_expenses }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Profit Before Tax</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-segment-profit_before_tax" 
+                                        value="{{ financial_data[period].consolidated_segment_information.profit_before_tax }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Adding Segment Assets -->
+                        <div class="section-title">Segment Assets</div>
+                        <div class="subsection">
+                            {% for segment, value in financial_data[period].consolidated_segment_information.segment_assets.items() %}
+                            <div class="item-row">
+                                <div class="item-name">{{ segment }}</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-segment-assets-{{ segment }}" 
+                                        value="{{ value }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="item-row">
+                                <div class="item-name">Unallocated Assets</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-segment-unallocated_assets" 
+                                        value="{{ financial_data[period].consolidated_segment_information.unallocated_assets }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Total Assets</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-segment-total_assets" 
+                                        value="{{ financial_data[period].consolidated_segment_information.total_assets }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Adding Segment Liabilities -->
+                        <div class="section-title">Segment Liabilities</div>
+                        <div class="subsection">
+                            {% for segment, value in financial_data[period].consolidated_segment_information.segment_liabilities.items() %}
+                            <div class="item-row">
+                                <div class="item-name">{{ segment }}</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-segment-liabilities-{{ segment }}" 
+                                        value="{{ value }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="item-row">
+                                <div class="item-name">Unallocated Liabilities</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-segment-unallocated_liabilities" 
+                                        value="{{ financial_data[period].consolidated_segment_information.unallocated_liabilities }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <div class="item-name">Total Liabilities</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-segment-total_liabilities" 
+                                        value="{{ financial_data[period].consolidated_segment_information.total_liabilities }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Adding Other Metrics -->
+                        {% if financial_data[period].consolidated_segment_information.other_metrics %}
+                        <div class="section-title">Other Metrics</div>
+                        <div class="subsection">
+                            {% for metric_key, metric in financial_data[period].consolidated_segment_information.other_metrics.items() %}
+                            <div class="item-row">
+                                <div class="item-name">{{ metric.description }}</div>
+                                <div class="item-value">
+                                    <input type="text" 
+                                        id="{{ period }}-consolidated-segment-other_metrics-{{ metric.name }}" 
+                                        value="{{ metric.value }}" 
+                                        class="editable">
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="no-tables">
+                        <p>No Consolidated Segment Information found for {{ period }}.</p>
+                    </div>
+                {% endif %}
+                
+                <div class="button-container">
+                    <button onclick="saveFinancialStatement('{{ period }}', 'consolidated-segment')" class="save-button">Save Changes for {{ period }}</button>
+                </div>
+                <div id="{{ period }}-consolidated-segment-status" class="status-message"></div>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <script>
+        // Set default tab on page load
+        document.getElementById("default-tab").click();
+
+        // Function to open statement tabs
+        function openStatement(evt, statementName) {
+            var i, tabcontent, tablinks;
+            
+            // Hide all tab content
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            
+            // Remove 'active' class from all tabs
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            
+            // Show the current tab and add 'active' class
+            document.getElementById(statementName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Function to save financial statement
+        function saveFinancialStatement(period, statementType) {
+            const statusElement = `${period}-${statementType}-status`;
+            
+            // Get the doc_id using the current period
+            const docId = `{{ company_name }}_${period}`;
+            
+            // Map UI statement type to API statement type
+            let apiStatementType = '';
+            switch(statementType) {
+                case 'standalone-pl':
+                    apiStatementType = 'standalone_profit_and_loss';
+                    break;
+                case 'consolidated-pl':
+                    apiStatementType = 'consolidated_profit_and_loss';
+                    break;
+                case 'standalone-segment':
+                    apiStatementType = 'standalone_segment_information';
+                    break;
+                case 'consolidated-segment':
+                    apiStatementType = 'consolidated_segment_information';
+                    break;
+            }
+            
+            // Initialize financial statement object
+            let financialStatement = {};
+            
+            // Different handling based on statement type
+            if (statementType === 'standalone-pl' || statementType === 'consolidated-pl') {
+                // Create revenue other_metrics object
+                let revenueOtherMetrics = {};
+                const revenueMetricsElements = document.querySelectorAll(`[id^="${period}-${statementType}-revenue-other_metrics-"]`);
+                revenueMetricsElements.forEach(element => {
+                    const metricName = element.id.replace(`${period}-${statementType}-revenue-other_metrics-`, '');
+                    const metricValue = parseFloat(element.value) || 0;
+                    const metricDescription = element.parentElement.previousElementSibling.textContent;
+                    revenueOtherMetrics[metricName] = {
+                        name: metricName,
+                        description: metricDescription,
+                        value: metricValue
+                    };
+                });
+                
+                // Create expenses other_metrics object
+                let expensesOtherMetrics = {};
+                const expensesMetricsElements = document.querySelectorAll(`[id^="${period}-${statementType}-expenses-other_metrics-"]`);
+                expensesMetricsElements.forEach(element => {
+                    const metricName = element.id.replace(`${period}-${statementType}-expenses-other_metrics-`, '');
+                    const metricValue = parseFloat(element.value) || 0;
+                    const metricDescription = element.parentElement.previousElementSibling.textContent;
+                    expensesOtherMetrics[metricName] = {
+                        name: metricName,
+                        description: metricDescription,
+                        value: metricValue
+                    };
+                });
+                
+                // Create profit_before_tax other_metrics object
+                let profitBeforeTaxOtherMetrics = {};
+                const profitMetricsElements = document.querySelectorAll(`[id^="${period}-${statementType}-profit_before_tax-other_metrics-"]`);
+                profitMetricsElements.forEach(element => {
+                    const metricName = element.id.replace(`${period}-${statementType}-profit_before_tax-other_metrics-`, '');
+                    const metricValue = parseFloat(element.value) || 0;
+                    const metricDescription = element.parentElement.previousElementSibling.textContent;
+                    profitBeforeTaxOtherMetrics[metricName] = {
+                        name: metricName,
+                        description: metricDescription,
+                        value: metricValue
+                    };
+                });
+                
+                // Create tax_expense other_metrics object
+                let taxExpenseOtherMetrics = {};
+                const taxMetricsElements = document.querySelectorAll(`[id^="${period}-${statementType}-tax_expense-other_metrics-"]`);
+                taxMetricsElements.forEach(element => {
+                    const metricName = element.id.replace(`${period}-${statementType}-tax_expense-other_metrics-`, '');
+                    const metricValue = parseFloat(element.value) || 0;
+                    const metricDescription = element.parentElement.previousElementSibling.textContent;
+                    taxExpenseOtherMetrics[metricName] = {
+                        name: metricName,
+                        description: metricDescription,
+                        value: metricValue
+                    };
+                });
+                
+                // Create profit_after_tax other_metrics object
+                let profitAfterTaxOtherMetrics = {};
+                const profitAfterTaxMetricsElements = document.querySelectorAll(`[id^="${period}-${statementType}-profit_after_tax-other_metrics-"]`);
+                profitAfterTaxMetricsElements.forEach(element => {
+                    const metricName = element.id.replace(`${period}-${statementType}-profit_after_tax-other_metrics-`, '');
+                    const metricValue = parseFloat(element.value) || 0;
+                    const metricDescription = element.parentElement.previousElementSibling.textContent;
+                    profitAfterTaxOtherMetrics[metricName] = {
+                        name: metricName,
+                        description: metricDescription,
+                        value: metricValue
+                    };
+                });
+                
+                financialStatement = {
+                    revenue: {
+                        sales_from_products_services: parseFloat(document.getElementById(`${period}-${statementType}-revenue-sales_from_products_services`).value) || 0,
+                        other_operating_revenue: parseFloat(document.getElementById(`${period}-${statementType}-revenue-other_operating_revenue`).value) || null,
+                        other_income: parseFloat(document.getElementById(`${period}-${statementType}-revenue-other_income`).value) || 0,
+                        total_income: parseFloat(document.getElementById(`${period}-${statementType}-revenue-total_income`).value) || 0,
+                        other_metrics: Object.keys(revenueOtherMetrics).length > 0 ? revenueOtherMetrics : {}
+                    },
+                    expenses: {
+                        cost_of_materials_consumed: parseFloat(document.getElementById(`${period}-${statementType}-expenses-cost_of_materials_consumed`).value) || null,
+                        purchases_of_stock_in_trade: parseFloat(document.getElementById(`${period}-${statementType}-expenses-purchases_of_stock_in_trade`).value) || null,
+                        changes_in_inventories: parseFloat(document.getElementById(`${period}-${statementType}-expenses-changes_in_inventories`).value) || null,
+                        employee_benefit_expense: parseFloat(document.getElementById(`${period}-${statementType}-expenses-employee_benefit_expense`).value) || 0,
+                        finance_costs: parseFloat(document.getElementById(`${period}-${statementType}-expenses-finance_costs`).value) || 0,
+                        depreciation_and_amortisation: parseFloat(document.getElementById(`${period}-${statementType}-expenses-depreciation_and_amortisation`).value) || 0,
+                        other_expenses: parseFloat(document.getElementById(`${period}-${statementType}-expenses-other_expenses`).value) || 0,
+                        exceptional_extraordinary_items: parseFloat(document.getElementById(`${period}-${statementType}-expenses-exceptional_extraordinary_items`).value) || null,
+                        total_expenses: parseFloat(document.getElementById(`${period}-${statementType}-expenses-total_expenses`).value) || 0,
+                        other_metrics: Object.keys(expensesOtherMetrics).length > 0 ? expensesOtherMetrics : {}
+                    },
+                    profit_before_tax: {
+                        profit_before_tax: parseFloat(document.getElementById(`${period}-${statementType}-profit_before_tax-profit_before_tax`).value) || 0,
+                        other_metrics: Object.keys(profitBeforeTaxOtherMetrics).length > 0 ? profitBeforeTaxOtherMetrics : {}
+                    },
+                    tax_expense: {
+                        current_tax: parseFloat(document.getElementById(`${period}-${statementType}-tax_expense-current_tax`).value) || 0,
+                        deferred_tax: parseFloat(document.getElementById(`${period}-${statementType}-tax_expense-deferred_tax`).value) || 0,
+                        total_tax_expense: parseFloat(document.getElementById(`${period}-${statementType}-tax_expense-total_tax_expense`).value) || null,
+                        other_metrics: Object.keys(taxExpenseOtherMetrics).length > 0 ? taxExpenseOtherMetrics : {}
+                    },
+                    profit_after_tax: {
+                        profit_after_tax: parseFloat(document.getElementById(`${period}-${statementType}-profit_after_tax-profit_after_tax`).value) || 0,
+                        other_metrics: Object.keys(profitAfterTaxOtherMetrics).length > 0 ? profitAfterTaxOtherMetrics : {}
+                    }
+                };
+            } else if (statementType === 'standalone-segment' || statementType === 'consolidated-segment') {
+                const segmentRevenuesElements = document.querySelectorAll(`[id^="${period}-${statementType}-revenues-"]`);
+                const segmentResultsElements = document.querySelectorAll(`[id^="${period}-${statementType}-results-"]`);
+                const segmentAssetsElements = document.querySelectorAll(`[id^="${period}-${statementType}-assets-"]`);
+                const segmentLiabilitiesElements = document.querySelectorAll(`[id^="${period}-${statementType}-liabilities-"]`);
+                
+                let segmentRevenues = {};
+                let segmentResults = {};
+                let segmentAssets = {};
+                let segmentLiabilities = {};
+                
+                segmentRevenuesElements.forEach(element => {
+                    const segmentName = element.id.replace(`${period}-${statementType}-revenues-`, '');
+                    segmentRevenues[segmentName] = parseFloat(element.value) || 0;
+                });
+                
+                segmentResultsElements.forEach(element => {
+                    const segmentName = element.id.replace(`${period}-${statementType}-results-`, '');
+                    segmentResults[segmentName] = parseFloat(element.value) || 0;
+                });
+                
+                segmentAssetsElements.forEach(element => {
+                    const segmentName = element.id.replace(`${period}-${statementType}-assets-`, '');
+                    segmentAssets[segmentName] = parseFloat(element.value) || 0;
+                });
+                
+                segmentLiabilitiesElements.forEach(element => {
+                    const segmentName = element.id.replace(`${period}-${statementType}-liabilities-`, '');
+                    segmentLiabilities[segmentName] = parseFloat(element.value) || 0;
+                });
+                
+                // Create other_metrics object
+                let otherMetrics = {};
+                const otherMetricsElements = document.querySelectorAll(`[id^="${period}-${statementType}-other_metrics-"]`);
+                otherMetricsElements.forEach(element => {
+                    const metricName = element.id.replace(`${period}-${statementType}-other_metrics-`, '');
+                    const metricValue = parseFloat(element.value) || 0;
+                    const metricDescription = element.parentElement.previousElementSibling.textContent;
+                    otherMetrics[metricName] = {
+                        name: metricName,
+                        description: metricDescription,
+                        value: metricValue
+                    };
+                });
+                
+                financialStatement = {
+                    segment_revenues: segmentRevenues,
+                    total_revenue_from_operations: parseFloat(document.getElementById(`${period}-${statementType}-total_revenue_from_operations`).value) || 0,
+                    segment_results: segmentResults,
+                    total_segment_profit_before_interest_tax: parseFloat(document.getElementById(`${period}-${statementType}-total_segment_profit_before_interest_tax`).value) || 0,
+                    finance_costs: parseFloat(document.getElementById(`${period}-${statementType}-finance_costs`).value) || 0,
+                    unallocable_corporate_expenses: parseFloat(document.getElementById(`${period}-${statementType}-unallocable_corporate_expenses`).value) || 0,
+                    profit_before_tax: parseFloat(document.getElementById(`${period}-${statementType}-profit_before_tax`).value) || 0,
+                    segment_assets: segmentAssets,
+                    unallocated_assets: parseFloat(document.getElementById(`${period}-${statementType}-unallocated_assets`).value) || 0,
+                    total_assets: parseFloat(document.getElementById(`${period}-${statementType}-total_assets`).value) || 0,
+                    segment_liabilities: segmentLiabilities,
+                    unallocated_liabilities: parseFloat(document.getElementById(`${period}-${statementType}-unallocated_liabilities`).value) || 0,
+                    total_liabilities: parseFloat(document.getElementById(`${period}-${statementType}-total_liabilities`).value) || 0,
+                    other_metrics: Object.keys(otherMetrics).length > 0 ? otherMetrics : {}
+                };
+            }
+            
+            // Show loading status
+            showStatus(statusElement, "Saving changes...", null);
+            
+            // Send the data to the server
+            fetch(`/update-financial-statement/${docId}/${apiStatementType}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(financialStatement),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                showStatus(statusElement, "Financial statement saved successfully!", "success");
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                showStatus(statusElement, `Error saving financial statement: ${error.message}`, "error");
+                console.error('Error:', error);
+            });
+        }
+        
+        function showStatus(elementId, message, type) {
+            const statusDiv = document.getElementById(elementId);
+            statusDiv.textContent = message;
+            statusDiv.className = "status-message";
+            
+            if (type) {
+                statusDiv.classList.add(type);
+            }
+            
+            statusDiv.style.display = "block";
+            
+            if (type === "success") {
+                setTimeout(() => {
+                    statusDiv.style.display = "none";
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html> 

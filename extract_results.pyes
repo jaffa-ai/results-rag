@@ -1,0 +1,543 @@
+from src.results_rag.pydantic_model import FinancialData, StandaloneProfitAndLoss, ConsolidatedProfitAndLoss, QuarterData, EnhancedPydanticOutputParser, StandaloneSegmentInformation, ConsolidatedSegmentInformation
+import os
+import json
+import asyncio
+import random
+import time
+from dotenv import load_dotenv
+from langchain_openai import AzureChatOpenAI
+from langchain.prompts import ChatPromptTemplate
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.callbacks import AsyncCallbackManagerForChainRun
+from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
+from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
+from langchain_core.vectorstores import InMemoryVectorStore
+from langchain_core.documents import Document
+from src.results_rag.validate_financial_statements import validate_financial_data, format_validation_results
+
+# from src.results_rag.pydantic_model import (
+#     FinancialData, 
+#     StandaloneProfitAndLoss, 
+#     ConsolidatedProfitAndLoss,
+#     StandaloneSegmentInformation,
+#     ConsolidatedSegmentInformation
+# )
+
+load_dotenv()
+
+os.environ["AZURE_OPENAI_API_KEY"] = os.getenv('OPENAI_API_KEY')
+os.environ["AZURE_OPENAI_ENDPOINT"] = os.getenv('AZURE_DEPLOYMENT')
+
+def read_output_md(file_path: str) -> str:
+    """
+    Reads the content of the specified markdown file and returns it as a string.
+
+    Args:
+        file_path (str): The path to the markdown file.
+
+    Returns:
+        str: The content of the markdown file.
+    """
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            return file.read()
+    except FileNotFoundError:
+        return "File not found."
+    except Exception as e:
+        return f"An error occurred: {e}"
+
+async def create_extraction_pipeline_async(statement_type, period):
+    """
+    Creates an asynchronous extraction pipeline for a specific financial statement type and quarter.
+    
+    Args:
+        statement_type: Either StandaloneProfitAndLoss or ConsolidatedProfitAndLoss
+        period: The period to extract (e.g., 'Q3FY25')
+        
+    Returns:
+        An async langchain extraction pipeline
+    """
+    os.environ["GOOGLE_API_KEY"] = os.getenv('GEMINI_API_KEY')
+    
+    # Initialize Azure OpenAI client with async capabilities
+    # llm = AzureChatOpenAI(
+    #     azure_deployment=os.getenv('DEPLOYMENT_NAME'),
+    #     api_version=os.getenv('OPENAI_API_VERSION'),
+    #     temperature=0
+    # )
+
+    llm = ChatGoogleGenerativeAI(
+        model="gemini-2.0-flash",
+        temperature=0,
+        max_retries=5
+    )
+    
+    # Create a parser for the specified statement type
+    parser = EnhancedPydanticOutputParser(pydantic_object=statement_type)
+    
+    # if statement_type == SegmentInformation:
+    #     extraction_type = "segment information
+    # else:
+    #     statement_desc = "standalone" if statement_type == StandaloneProfitAndLoss else "consolidated"
+    #     extraction_type = f"{statement_desc} profit and loss (financial results) statement"
+    
+    # Determine the statement description based on the type
+    # statement_desc = "standalone" if statement_type == StandaloneProfitAndLoss else "consolidated"
+    
+    # Create quarter-specific date information
+    period_info = {
+        'Q3FY25': "3 months ended 31-12-2024 (Q3FY25)",
+        'Q3FY24': "3 months ended 31-12-2023 (Q3FY24)",
+        'Q2FY25': "3 months ended 30-09-2024 (Q2FY25)",
+        '9MFY25': "9 months ended 31-12-2024 (9MFY25)",
+        '9MFY24': "9 months ended 31-12-2023 (9MFY24)",
+        'FY24': "12 months (year ended) 31-03-2024 (FY24)"
+    }
+    
+    # Determine extraction type based on statement type
+    if isinstance(statement_type, (StandaloneSegmentInformation, ConsolidatedSegmentInformation)):
+        statement_desc = "standalone" if isinstance(statement_type, StandaloneSegmentInformation) else "consolidated"
+        extraction_type = f"{statement_desc} segment information"
+    else:
+        statement_desc = "standalone" if statement_type == StandaloneProfitAndLoss else "consolidated"
+        extraction_type = f"{statement_desc} profit and loss (financial results) statement"
+
+    # Use a single template for all types
+    template = f"""You are a financial analyst assistant that is required to extract financial information for a particular period from given text from a financial results pdf.
+
+    Text to analyze:
+    {{text}}
+
+    {{format_instructions}}
+
+    Remember: if the text does not explicitly mention standalone and consolidated statements, then only standalone statement is available and thus consolidated statement should be None.
+    From this text extract the {extraction_type} for {period_info.get(period, period)}.
+
+    Return the data in the exact format specified above unless the text does not contain the specified data, in which case return None.
+    """
+    
+    prompt = ChatPromptTemplate.from_template(template).partial(
+        format_instructions=parser.get_format_instructions()
+    )
+    
+    # Create the extraction chain using LCEL with async support
+    chain = (
+        {"text": RunnablePassthrough()} 
+        | prompt 
+        | llm 
+        | parser
+    )
+    
+    return chain
+
+# async def extract_segment_information_async(segment_type, period: str, content=None):
+#     """
+#     Asynchronously extracts segment information for a specific segment type from the given content.
+
+#     Args:
+#         segment_type: The type of segment information to extract (e.g., StandaloneSegmentInformation)
+#         period (str): The period to extract (e.g., 'Q3FY25')
+#         content: The pre-filtered text content containing relevant pages for this segment type
+
+#     Returns:
+#         The extracted segment information
+#     """
+#     # Create and run the extraction pipeline
+#     chain = await create_extraction_pipeline_async(segment_type, period)  # This works fine!
+    
+#     try:
+#         # Determine the segment description based on the type        
+#         # Get period info for extraction
+#         period_info = {
+#             'Q3FY25': "3 months ended 31-12-2024 (Q3FY25)",
+#             'Q3FY24': "3 months ended 31-12-2023 (Q3FY24)",
+#             'Q2FY25': "3 months ended 30-09-2024 (Q2FY25)",
+#             '9MFY25': "9 months ended 31-12-2024 (9MFY25)",
+#             '9MFY24': "9 months ended 31-12-2023 (9MFY24)",
+#             'FY24': "12 months (year ended) 31-03-2024 (FY24)"
+#         }
+        
+#         # # Log what we're extracting
+#         print(f"Extracting segment information for {period_info.get(period, period)}")
+#         print(f"Content length: {len(content) if content else 0} characters")
+        
+#         # Invoke the chain with retry logic and content
+#         result = await invoke_chain_with_retry(chain, content)
+#         return result
+    
+#     except Exception as e:
+#         print(f"Error in extraction pipeline for {segment_type.__name__} in {period}: {e}")
+#         raise
+
+@retry(
+    stop=stop_after_attempt(5),
+    wait=wait_exponential(multiplier=1, min=2, max=60),
+    retry=retry_if_exception_type((Exception)),
+    reraise=True
+)
+async def invoke_chain_with_retry(chain, content):
+    """
+    Invokes the extraction chain with retry logic.
+    
+    Args:
+        chain: The LangChain extraction pipeline
+        content: The content to analyze
+        
+    Returns:
+        The extracted data
+    """
+    try:
+        result = await chain.ainvoke({"text": content})
+        return result
+    except Exception as e:
+        print(f"Error during chain invocation: {e}")
+        # Add a small random delay before retrying to avoid rate limits
+        await asyncio.sleep(random.uniform(0.5, 2.0))
+        raise
+
+# async def extract_information_async(statement_type, period: str, content=None):
+#     """
+#     Asynchronously extracts financial information from the given markdown file.
+
+#     Args:
+#         file_path (str): The path to the markdown file containing the extracted tables.
+#         statement_type: The type of financial statement to extract
+#         period (str): The period to extract (e.g., 'Q3FY25')
+#         vector_store: Optional pre-created vector store
+
+#     Returns:
+#         The extracted financial statement
+#     """
+#     # retriever = vector_store.as_retriever(search_kwargs={"k": 3})
+    
+#     # Create and run the extraction pipeline
+#     chain = await create_extraction_pipeline_async(statement_type, period)
+    
+#     try:
+#         # Determine the statement description based on the type
+#         statement_desc = "standalone" if statement_type == StandaloneProfitAndLoss else "consolidated"
+        
+#         # Get period info for retrieval
+#         period_info = {
+#             'Q3FY25': "3 months ended 31-12-2024 (Q3FY25)",
+#             'Q3FY24': "3 months ended 31-12-2023 (Q3FY24)",
+#             'Q2FY25': "3 months ended 30-09-2024 (Q2FY25)",
+#             '9MFY25': "9 months ended 31-12-2024 (9MFY25)",
+#             '9MFY24': "9 months ended 31-12-2023 (9MFY24)",
+#             'FY24': "12 months (year ended) 31-03-2024 (FY24)"
+#         }
+        
+#         # Create a query to retrieve relevant context
+#         query = f"{statement_desc} profit and loss statement for {period_info.get(period, period)}"
+        
+#         # Retrieve relevant context
+#         # retrieved_docs = await retriever.ainvoke(query)
+#         # retrieved_context = "\n\n".join([doc.page_content for doc in retrieved_docs])
+        
+#         # Combine retrieved context with original content for better extraction
+#         # augmented_content = f"RETRIEVED CONTEXT:\n{retrieved_context}\n\nORIGINAL DOCUMENT:\n{content}"
+        
+#         # Invoke the chain with retry logic and augmented content
+#         result = await invoke_chain_with_retry(chain, content)
+#         return result
+    
+#     except Exception as e:
+#         print(f"Error in extraction pipeline for {statement_type.__name__} in {period}: {e}")
+#         raise
+async def extract_information_async(statement_type, period: str, content=None):
+    """
+        Asynchronously extracts financial data for any statement type from the given content.
+        
+        Handles all four cases:
+        - Standalone Profit and Loss
+        - Consolidated Profit and Loss
+        - Segment Information (either type)
+        - Any future statement types
+        
+        Args:
+            statement_type: The type of financial data to extract
+            period (str): The period to extract (e.g., 'Q3FY25')
+            content: The pre-filtered text content containing relevant pages
+            
+        Returns:
+            The extracted financial data
+        """
+        # Create the extraction pipeline
+    chain = await create_extraction_pipeline_async(statement_type, period)
+    
+    try:
+        # Get period info for extraction
+        period_info = {
+            'Q3FY25': "3 months ended 31-12-2024 (Q3FY25)",
+            'Q3FY24': "3 months ended 31-12-2023 (Q3FY24)",
+            'Q2FY25': "3 months ended 30-09-2024 (Q2FY25)",
+            '9MFY25': "9 months ended 31-12-2024 (9MFY25)",
+            '9MFY24': "9 months ended 31-12-2023 (9MFY24)",
+            'FY24': "12 months (year ended) 31-03-2024 (FY24)"
+        }
+        
+        # Determine content type based on statement_type
+        if statement_type == StandaloneSegmentInformation:
+            extraction_type = "standalone segment information"
+        elif statement_type == ConsolidatedSegmentInformation:
+            extraction_type = "consolidated segment information"
+        elif statement_type == StandaloneProfitAndLoss:
+            extraction_type = "standalone profit and loss"
+        elif statement_type == ConsolidatedProfitAndLoss:
+            extraction_type = "consolidated profit and loss"
+        else:
+            # Default case for any other type
+            extraction_type = statement_type.__name__
+        
+        # Log what we're extracting
+        print(f"Extracting {extraction_type} for {period_info.get(period, period)}")
+        print(f"Content length: {len(content) if content else 0} characters")
+        
+        # Invoke the chain with retry logic and content
+        result = await invoke_chain_with_retry(chain, content)
+        return result
+    
+    except Exception as e:
+        print(f"Error in extraction pipeline for {statement_type.__name__} in {period}: {e}")
+        raise
+
+# async def extract_information_async(statement_type, period: str, content=None):
+#     """
+#     Asynchronously extracts financial information for a specific statement type from the given content.
+
+#     Args:
+#         statement_type: The type of financial statement to extract (e.g., StandaloneProfitAndLoss)
+#         period (str): The period to extract (e.g., 'Q3FY25')
+#         content: The pre-filtered text content containing relevant pages for this statement type
+
+#     Returns:
+#         The extracted financial statement
+#     """
+#     # Create and run the extraction pipeline
+#     chain = await create_extraction_pipeline_async(statement_type, period)
+    
+#     try:
+#         # Determine the statement description based on the type
+#         statement_desc = "standalone" if statement_type == StandaloneProfitAndLoss else "consolidated"
+        
+#         # Get period info for extraction
+#         period_info = {
+#             'Q3FY25': "3 months ended 31-12-2024 (Q3FY25)",
+#             'Q3FY24': "3 months ended 31-12-2023 (Q3FY24)",
+#             'Q2FY25': "3 months ended 30-09-2024 (Q2FY25)",
+#             '9MFY25': "9 months ended 31-12-2024 (9MFY25)",
+#             '9MFY24': "9 months ended 31-12-2023 (9MFY24)",
+#             'FY24': "12 months (year ended) 31-03-2024 (FY24)"
+#         }
+        
+#         # Log what we're extracting
+#         print(f"Extracting {statement_desc} profit and loss for {period_info.get(period, period)}")
+#         print(f"Content length: {len(content) if content else 0} characters")
+        
+#         # Invoke the chain with retry logic and content
+#         result = await invoke_chain_with_retry(chain, content)
+#         return result
+    
+#     except Exception as e:
+#         print(f"Error in extraction pipeline for {statement_type.__name__} in {period}: {e}")
+#         raise
+    
+# def create_financial_data_object(company_name, quarter, standalone_pl=None, consolidated_pl=None, segment_information=None):
+def create_financial_data_object(company_name, quarter, standalone_pl=None, consolidated_pl=None, standalone_segment=None, consolidated_segment=None):
+    """
+    Creates a FinancialData object with the extracted profit and loss statements.
+    
+    Args:
+        company_name (str): The name of the company
+        quarter (str): The quarter (e.g., 'Q3FY25')
+        standalone_pl: The standalone profit and loss statement
+        consolidated_pl: The consolidated profit and loss statement
+        standalone_segment: The standalone segment information
+        consolidated_segment: The consolidated segment information
+    Returns:
+        FinancialData: A FinancialData object with the extracted data
+    """
+    # Quarter date mappings
+    quarter_dates = {
+        'Q3FY25': {"start": "2025-10-01", "end": "2025-12-31"},
+        'Q3FY24': {"start": "2024-10-01", "end": "2024-12-31"},
+        'Q2FY25': {"start": "2025-07-01", "end": "2025-09-30"},
+        '9MFY25': {"start": "2025-04-01", "end": "2025-12-31"},
+        '9MFY24': {"start": "2024-04-01", "end": "2024-12-31"},
+        'FY24': {"start": "2023-04-01", "end": "2024-03-31"}
+    }
+    
+    # Create QuarterData instance
+    quarter_data = QuarterData(
+        company=company_name,
+        period=quarter,
+        periodStart=quarter_dates.get(quarter, {}).get("start", ""),
+        periodEnd=quarter_dates.get(quarter, {}).get("end", ""),
+        currency="INR",
+        unit="crores",
+        standalone_profit_and_loss=standalone_pl,
+        consolidated_profit_and_loss=consolidated_pl,
+        standalone_segment_information=standalone_segment,
+        consolidated_segment_information=consolidated_segment
+        # segment_information=segment_information
+    )
+    
+    # Create FinancialData instance
+    financial_data = FinancialData(root={quarter: quarter_data})
+    
+    return financial_data
+
+async def run_extractions_async(company_name, content=None):
+    """
+    Runs extractions for multiple quarters and statement types asynchronously.
+    
+    Args:
+        company_name (str): Name of the company
+        content: The content to extract information from
+        
+    Returns:
+        FinancialData: A combined financial data object with all extracted data
+    """
+    periods = ['Q3FY25', 'Q3FY24', 'Q2FY25', '9MFY25', '9MFY24', 'FY24']
+    
+    # Create a combined financial data object
+    combined_financial_data = FinancialData(root={})
+    
+    # Create tasks for all periods
+    extraction_tasks = []
+    
+    for period in periods:
+        print(f"\nCreating extraction tasks for {period}...")
+        
+        # Create tasks for both statement types for this period
+        standalone_task = extract_information_async(StandaloneProfitAndLoss, period, content)
+        consolidated_task = extract_information_async(ConsolidatedProfitAndLoss, period, content)
+
+        # segment_task = extract_segment_information_async(SegmentInformation, period, content)
+        standalone_segment_task = extract_information_async(StandaloneSegmentInformation, period, content)
+        consolidated_segment_task = extract_information_async(ConsolidatedSegmentInformation, period, content)
+        
+        # # Add both tasks to our list with period information
+        # extraction_tasks.append((period, standalone_task, consolidated_task, segment_task))
+        extraction_tasks.append((period, standalone_task, consolidated_task, standalone_segment_task, consolidated_segment_task))
+    
+    # Process all periods concurrently
+    print(f"\nProcessing {len(periods)} periods concurrently...")
+    
+    # # Execute all extraction tasks concurrently
+    # results = await asyncio.gather(
+    #     *[asyncio.gather(standalone_task, consolidated_task, segment_task, return_exceptions=True) 
+    #       for period, standalone_task, consolidated_task, segment_task in extraction_tasks],
+    #     return_exceptions=True
+    # )
+
+    results = await asyncio.gather(
+        *[asyncio.gather(standalone_task, consolidated_task, standalone_segment_task, consolidated_segment_task, return_exceptions=True) 
+          for period, standalone_task, consolidated_task, standalone_segment_task, consolidated_segment_task in extraction_tasks],
+        return_exceptions=True
+    )
+    
+    # Process results for each period
+    for i, period in enumerate(periods):
+        if isinstance(results[i], Exception):
+            print(f"Failed to process period {period}: {results[i]}")
+            continue
+            
+        # standalone_result, consolidated_result, segment_result = results[i]
+        standalone_result, consolidated_result, standalone_segment_result, consolidated_segment_result = results[i]
+        # Process standalone result
+        standalone_pl = None
+        if not isinstance(standalone_result, Exception):
+            standalone_pl = standalone_result
+            print(f"Successfully extracted standalone P&L for {period}")
+        else:
+            print(f"Failed to extract standalone P&L for {period}: {standalone_result}")
+        
+        # Process consolidated result
+        consolidated_pl = None
+        if not isinstance(consolidated_result, Exception):
+            consolidated_pl = consolidated_result
+            print(f"Successfully extracted consolidated P&L for {period}")
+        else:
+            print(f"Failed to extract consolidated P&L for {period}: {consolidated_result}")
+        
+        # segment_information = None
+        # if not isinstance(segment_result, Exception):
+        #     segment_information = segment_result
+        #     print(f"Successfully extracted standalone segment information for {period}")
+        # else:
+        #     print(f"Failed to extract standalone segment information for {period}: {segment_result}")
+        standalone_segment = None
+        if not isinstance(standalone_segment_result, Exception):
+            standalone_segment = standalone_segment_result
+            print(f"Successfully extracted standalone segment information for {period}")
+        else:
+            print(f"Failed to extract standalone segment information for {period}: {standalone_segment_result}")
+
+        consolidated_segment = None
+        if not isinstance(consolidated_segment_result, Exception):
+            consolidated_segment = consolidated_segment_result
+            print(f"Successfully extracted consolidated segment information for {period}")
+        else:
+            print(f"Failed to extract consolidated segment information for {period}: {consolidated_segment_result}")
+
+
+        # # Create and add to the combined financial data object
+        # if standalone_pl or consolidated_pl or segment_information:
+        if standalone_pl or consolidated_pl or standalone_segment or consolidated_segment:
+            financial_data = create_financial_data_object(
+                company_name, 
+                period, 
+                standalone_pl=standalone_pl, 
+                consolidated_pl=consolidated_pl,
+                # segment_information=segment_information
+                standalone_segment_information=standalone_segment,  # Changed from standalone_segment_information
+                consolidated_segment_information=consolidated_segment 
+            )
+
+            # Add this quarter's data to the combined financial data
+            combined_financial_data.root.update(financial_data.root)
+
+    # Validate the extracted financial data
+    print("\nValidating financial statements...")
+    validation_results = validate_financial_data(combined_financial_data)
+    
+    if validation_results:
+        formatted_results = format_validation_results(validation_results)
+        print(formatted_results)
+        
+        # Add validation results to the combined financial data as metadata
+        # This is optional but could be useful for downstream processing
+        if not hasattr(combined_financial_data, 'metadata'):
+            combined_financial_data.metadata = {}
+        combined_financial_data.metadata['validation_results'] = validation_results
+    else:
+        print("All financial statements passed validation.")
+
+    return combined_financial_data
+
+
+def create_vector_store_from_pages(pages: list):
+    """
+    Creates a vector store from individual pages using Google Generative AI embeddings.
+    
+    Args:
+        pages (list): List of page contents
+        
+    Returns:
+        InMemoryVectorStore: A vector store containing the embedded pages
+    """
+    # Initialize Google Generative AI embeddings
+    embeddings = GoogleGenerativeAIEmbeddings(
+        model="models/embedding-001",
+        google_api_key=os.getenv('GEMINI_API_KEY')
+    )
+    
+    # Create documents from individual pages
+    documents = [Document(page_content=page) for page in pages]
+    
+    # Create and return the vector store
+    return InMemoryVectorStore.from_documents(
+        documents=documents,
+        embedding=embeddings
+    )

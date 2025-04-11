@@ -1,0 +1,94 @@
+{
+    "ProfitAndLoss": {
+        "revenue_from_operations": {
+            "calculation": "sales_from_products_services + other_operating_revenue",
+            "description": "Revenue from operations is the revenue a company makes from its core operations",
+            "common_terms": ["operating revenue", "operating income", "operating earnings"],
+            "kind": "simple"
+        },
+        "total_income": {
+            "calculation": "revenue_from_operations + other_income",
+            "description": "Total income is the sum of revenue from operations and other income",
+            "common_terms": ["total income", "total revenue", "total earnings"],
+            "kind": "simple"
+        },
+        "cost_of_goods_sold": {
+            "calculation": "cost_of_materials_consumed + purchases_of_stock_in_trade + changes_in_inventories",
+            "description": "Cost of goods sold is the cost of the goods sold during the period",
+            "common_terms": ["COGS", "cost of sales", "cost of revenue", "direct costs"],
+            "after": "changes_in_inventories",
+            "kind": "simple"
+        },
+        "gross_margin": {
+            "calculation": "(sales_from_products_services + other_operating_revenue - cost_of_goods_sold) / (sales_from_products_services + other_operating_revenue)",
+            "description": "Gross margin is a profitability ratio that measures the percentage of operating revenue that a company earns after deducting the cost of goods sold from its revenue.",
+            "common_terms": ["gross margin", "gross profit margin", "gross profit ratio"],
+            "after": "cost_of_goods_sold",
+            "kind": "ratio"
+        },
+        "gross_profit": {
+            "calculation": "sales_from_products_services + other_operating_revenue - cost_of_goods_sold",
+            "description": "Gross profit is the difference between sales and the cost of goods sold.",
+            "common_terms": ["gross profit", "gross operating profit"],
+            "after": "cost_of_goods_sold",
+            "kind": "simple"
+        },
+        "total_expenses": {
+            "calculation": "cost_of_materials_consumed + purchases_of_stock_in_trade + changes_in_inventories + employee_benefit_expense + finance_costs + depreciation_and_amortisation + other_expenses",
+            "description": "Total expenses incurred during the period",
+            "common_terms": ["total expenses", "total operating expenses"],
+            "kind": "simple "
+        },
+        "profit_before_exceptional_extraordinary_items_and_tax": {
+            "xml_tag": "in-bse-fin:ProfitBeforeExceptionalItemsAndTax",
+            "calculation": "total_income - total_expenses",
+            "description": "Profit before exceptional items and tax",
+            "common_terms": ["profit before exceptional items and tax", "profit before extraordinary items and tax"],
+            "after": "total_expenses",
+            "kind": "simple"
+        },
+        "exceptional_extraordinary_items": {
+            "xml_tag": "in-bse-fin:ExceptionalItems",
+            "calculation": "profit_before_exceptional_extraordinary_items_and_tax - profit_before_tax",
+            "description": "Exceptional items are unusual or non-recurring items that affect profit",
+            "common_terms": ["extraordinary items", "one-time items", "exceptional items"],
+            "after": "profit_before_tax",
+            "kind": "simple"
+        },
+        "operating_margin": {
+            "calculation": "(sales_from_products_services + other_operating_revenue + other_income - cost_of_goods_sold - employee_benefit_expense - other_expenses) / (sales_from_products_services + other_operating_revenue + other_income)",
+            "description": "Operating margin measures how much profit a company makes on a dollar of sales after paying for variable costs of production but before paying interest or tax.",
+            "common_terms": ["EBITDA margin", "operating profit margin", "return on sales"],
+            "after": "operating_profit",
+            "kind": "ratio"
+        },
+        "pbt_margin": {
+            "calculation": "profit_before_tax / total_income",
+            "description": "Profit before tax margin measures how much profit a company makes before tax as a percentage of revenue.",
+            "common_terms": ["PBT margin"],
+            "after": "profit_before_tax",
+            "kind": "ratio"
+        },
+        "net_profit_margin": {
+            "calculation": "profit_after_tax / total_income",
+            "description": "Net profit margin measures how much net profit is generated as a percentage of revenue.",
+            "common_terms": ["net margin", "profit after tax margin", "PAT margin"],
+            "after": "profit_after_tax",
+            "kind": "ratio"
+        },
+        "operating_profit": {
+            "calculation": "sales_from_products_services + other_operating_revenue - cost_of_goods_sold - employee_benefit_expense - other_expenses",
+            "description": "Operating profit is the profit a company makes from its core operations before interest and taxes.",
+            "common_terms": ["EBITDA", "operating profit", "operating earnings", "operating income"],
+            "after": "other_expenses",
+            "kind": "simple"
+        },
+        "earnings_before_interest_and_tax": {
+            "calculation": "operating_profit - depreciation_and_amortisation",
+            "description": "Earnings before interest and taxes (EBIT) is the profit a company makes from its core operations before interest and taxes.",
+            "common_terms": ["EBIT"],
+            "after": "depreciation_and_amortisation",
+            "kind": "simple"
+        }
+    }
+}

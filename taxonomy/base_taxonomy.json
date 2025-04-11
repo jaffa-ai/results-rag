@@ -1,0 +1,2511 @@
+{
+  "BalanceSheet": {
+    "PropertyPlantAndEquipment": {
+      "xml_tag": "in-bse-fin:PropertyPlantAndEquipment",
+      "description": "Property, plant and equipment",
+      "common_terms": [
+        "Property, plant and equipment"
+      ]
+    },
+    "CapitalWorkInProgress": {
+      "xml_tag": "in-bse-fin:CapitalWorkInProgress",
+      "description": "Capital work-in-progress",
+      "common_terms": [
+        "Capital work-in-progress"
+      ]
+    },
+    "InvestmentProperty": {
+      "xml_tag": "in-bse-fin:InvestmentProperty",
+      "description": "Investment property",
+      "common_terms": [
+        "Investment property"
+      ]
+    },
+    "Goodwill": {
+      "xml_tag": "in-bse-fin:Goodwill",
+      "description": "Goodwill",
+      "common_terms": [
+        "Goodwill"
+      ]
+    },
+    "OtherIntangibleAssets": {
+      "xml_tag": "in-bse-fin:OtherIntangibleAssets",
+      "description": "Other intangible assets",
+      "common_terms": [
+        "Other intangible assets"
+      ]
+    },
+    "IntangibleAssetsUnderDevelopment": {
+      "xml_tag": "in-bse-fin:IntangibleAssetsUnderDevelopment",
+      "description": "Intangible assets under development",
+      "common_terms": [
+        "Intangible assets under development"
+      ]
+    },
+    "BiologicalAssetsOtherThanBearerPlants": {
+      "xml_tag": "in-bse-fin:BiologicalAssetsOtherThanBearerPlants",
+      "description": "Biological assets other than bearer plants",
+      "common_terms": [
+        "Biological assets other than bearer plants"
+      ]
+    },
+    "InvestmentsAccountedForUsingEquityMethod": {
+      "xml_tag": "in-bse-fin:InvestmentsAccountedForUsingEquityMethod",
+      "description": "Investments accounted for using equity method",
+      "common_terms": [
+        "Investments accounted for using equity method"
+      ]
+    },
+    "NoncurrentInvestments": {
+      "xml_tag": "in-bse-fin:NoncurrentInvestments",
+      "description": "Non-current investments",
+      "common_terms": [
+        "Non-current investments"
+      ]
+    },
+    "TradeReceivablesNoncurrent": {
+      "xml_tag": "in-bse-fin:TradeReceivablesNoncurrent",
+      "description": "Trade receivables, non-current",
+      "common_terms": [
+        "Trade receivables, non-current"
+      ]
+    },
+    "LoansNoncurrent": {
+      "xml_tag": "in-bse-fin:LoansNoncurrent",
+      "description": "Loans, non-current",
+      "common_terms": [
+        "Loans, non-current"
+      ]
+    },
+    "OtherNoncurrentFinancialAssets": {
+      "xml_tag": "in-bse-fin:OtherNoncurrentFinancialAssets",
+      "description": "Other non-current financial assets",
+      "common_terms": [
+        "Other non-current financial assets"
+      ]
+    },
+    "NoncurrentFinancialAssets": {
+      "xml_tag": "in-bse-fin:NoncurrentFinancialAssets",
+      "description": "Total non-current financial assets",
+      "common_terms": [
+        "Total non-current financial assets"
+      ]
+    },
+    "DeferredTaxAssetsNet": {
+      "xml_tag": "in-bse-fin:DeferredTaxAssetsNet",
+      "description": "Deferred tax assets (net)",
+      "common_terms": [
+        "Deferred tax assets (net)"
+      ]
+    },
+    "OtherNoncurrentAssets": {
+      "xml_tag": "in-bse-fin:OtherNoncurrentAssets",
+      "description": "Other non-current assets",
+      "common_terms": [
+        "Other non-current assets"
+      ]
+    },
+    "NoncurrentAssets": {
+      "xml_tag": "in-bse-fin:NoncurrentAssets",
+      "description": "Total non-current assets",
+      "common_terms": [
+        "Total non-current assets"
+      ]
+    },
+    "Inventories": {
+      "xml_tag": "in-bse-fin:Inventories",
+      "description": "Inventories",
+      "common_terms": [
+        "Inventories"
+      ]
+    },
+    "CurrentInvestments": {
+      "xml_tag": "in-bse-fin:CurrentInvestments",
+      "description": "Current investments",
+      "common_terms": [
+        "Current investments"
+      ]
+    },
+    "TradeReceivablesCurrent": {
+      "xml_tag": "in-bse-fin:TradeReceivablesCurrent",
+      "description": "Trade receivables, current",
+      "common_terms": [
+        "Trade receivables, current"
+      ]
+    },
+    "CashAndCashEquivalents": {
+      "xml_tag": "in-bse-fin:CashAndCashEquivalents",
+      "description": "Cash and cash equivalents",
+      "common_terms": [
+        "Cash and cash equivalents"
+      ]
+    },
+    "BankBalanceOtherThanCashAndCashEquivalents": {
+      "xml_tag": "in-bse-fin:BankBalanceOtherThanCashAndCashEquivalents",
+      "description": "Bank balance other than cash and cash equivalents",
+      "common_terms": [
+        "Bank balance other than cash and cash equivalents"
+      ]
+    },
+    "LoansCurrent": {
+      "xml_tag": "in-bse-fin:LoansCurrent",
+      "description": "Loans, current",
+      "common_terms": [
+        "Loans, current"
+      ]
+    },
+    "OtherCurrentFinancialAssets": {
+      "xml_tag": "in-bse-fin:OtherCurrentFinancialAssets",
+      "description": "Other current financial assets",
+      "common_terms": [
+        "Other current financial assets"
+      ]
+    },
+    "CurrentFinancialAssets": {
+      "xml_tag": "in-bse-fin:CurrentFinancialAssets",
+      "description": "Total current financial assets",
+      "common_terms": [
+        "Total current financial assets"
+      ]
+    },
+    "CurrentTaxAssets": {
+      "xml_tag": "in-bse-fin:CurrentTaxAssets",
+      "description": "Current tax assets",
+      "common_terms": [
+        "Current tax assets"
+      ]
+    },
+    "OtherCurrentAssets": {
+      "xml_tag": "in-bse-fin:OtherCurrentAssets",
+      "description": "Other current assets",
+      "common_terms": [
+        "Other current assets"
+      ]
+    },
+    "CurrentAssets": {
+      "xml_tag": "in-bse-fin:CurrentAssets",
+      "description": "Total current assets",
+      "common_terms": [
+        "Total current assets"
+      ]
+    },
+    "NoncurrentAssetsClassifiedAsHeldForSale": {
+      "xml_tag": "in-bse-fin:NoncurrentAssetsClassifiedAsHeldForSale",
+      "description": "Non-current assets classified as held for sale",
+      "common_terms": [
+        "Non-current assets classified as held for sale"
+      ]
+    },
+    "RegulatoryDeferralAccountDebitBalancesAndRelatedDeferredTaxAssets": {
+      "xml_tag": "in-bse-fin:RegulatoryDeferralAccountDebitBalancesAndRelatedDeferredTaxAssets",
+      "description": "Regulatory deferral account debit balances and related deferred tax Assets",
+      "common_terms": [
+        "Regulatory deferral account debit balances and related deferred tax Assets"
+      ]
+    },
+    "Assets": {
+      "xml_tag": "in-bse-fin:Assets",
+      "description": "Total assets",
+      "common_terms": [
+        "Total assets"
+      ]
+    },
+    "EquityShareCapital": {
+      "xml_tag": "in-bse-fin:EquityShareCapital",
+      "description": "Equity share capital",
+      "common_terms": [
+        "Equity share capital"
+      ]
+    },
+    "OtherEquity": {
+      "xml_tag": "in-bse-fin:OtherEquity",
+      "description": "Other equity",
+      "common_terms": [
+        "Other equity"
+      ]
+    },
+    "EquityAttributableToOwnersOfParent": {
+      "xml_tag": "in-bse-fin:EquityAttributableToOwnersOfParent",
+      "description": "Total equity attributable to owners of parent",
+      "common_terms": [
+        "Total equity attributable to owners of parent"
+      ]
+    },
+    "NonControllingInterest": {
+      "xml_tag": "in-bse-fin:NonControllingInterest",
+      "description": "Non controlling interest",
+      "common_terms": [
+        "Non controlling interest"
+      ]
+    },
+    "Equity": {
+      "xml_tag": "in-bse-fin:Equity",
+      "description": "Total equity",
+      "common_terms": [
+        "Total equity"
+      ]
+    },
+    "BorrowingsNoncurrent": {
+      "xml_tag": "in-bse-fin:BorrowingsNoncurrent",
+      "description": "Borrowings, non-current",
+      "common_terms": [
+        "Borrowings, non-current"
+      ]
+    },
+    "TradePayablesNoncurrent": {
+      "xml_tag": "in-bse-fin:TradePayablesNoncurrent",
+      "description": "Trade payables, non-current",
+      "common_terms": [
+        "Trade payables, non-current"
+      ]
+    },
+    "OtherNoncurrentFinancialLiabilities": {
+      "xml_tag": "in-bse-fin:OtherNoncurrentFinancialLiabilities",
+      "description": "Other non-current financial liabilities",
+      "common_terms": [
+        "Other non-current financial liabilities"
+      ]
+    },
+    "NoncurrentFinancialLiabilities": {
+      "xml_tag": "in-bse-fin:NoncurrentFinancialLiabilities",
+      "description": "Total non-current financial liabilities",
+      "common_terms": [
+        "Total non-current financial liabilities"
+      ]
+    },
+    "ProvisionsNoncurrent": {
+      "xml_tag": "in-bse-fin:ProvisionsNoncurrent",
+      "description": "Provisions, non-current",
+      "common_terms": [
+        "Provisions, non-current"
+      ]
+    },
+    "DeferredTaxLiabilitiesNet": {
+      "xml_tag": "in-bse-fin:DeferredTaxLiabilitiesNet",
+      "description": "Deferred tax liabilities (net)",
+      "common_terms": [
+        "Deferred tax liabilities (net)"
+      ]
+    },
+    "DeferredGovernmentGrantsNoncurrent": {
+      "xml_tag": "in-bse-fin:DeferredGovernmentGrantsNoncurrent",
+      "description": "Deferred government grants, Non-current",
+      "common_terms": [
+        "Deferred government grants, Non-current"
+      ]
+    },
+    "OtherNoncurrentLiabilities": {
+      "xml_tag": "in-bse-fin:OtherNoncurrentLiabilities",
+      "description": "Other non-current liabilities",
+      "common_terms": [
+        "Other non-current liabilities"
+      ]
+    },
+    "NoncurrentLiabilities": {
+      "xml_tag": "in-bse-fin:NoncurrentLiabilities",
+      "description": "Total non-current liabilities",
+      "common_terms": [
+        "Total non-current liabilities"
+      ]
+    },
+    "BorrowingsCurrent": {
+      "xml_tag": "in-bse-fin:BorrowingsCurrent",
+      "description": "Borrowings, current",
+      "common_terms": [
+        "Borrowings, current"
+      ]
+    },
+    "TradePayablesCurrent": {
+      "xml_tag": "in-bse-fin:TradePayablesCurrent",
+      "description": "Trade payables, current",
+      "common_terms": [
+        "Trade payables, current"
+      ]
+    },
+    "OtherCurrentFinancialLiabilities": {
+      "xml_tag": "in-bse-fin:OtherCurrentFinancialLiabilities",
+      "description": "Other current financial liabilities",
+      "common_terms": [
+        "Other current financial liabilities"
+      ]
+    },
+    "CurrentFinancialLiabilities": {
+      "xml_tag": "in-bse-fin:CurrentFinancialLiabilities",
+      "description": "Total current financial liabilities",
+      "common_terms": [
+        "Total current financial liabilities"
+      ]
+    },
+    "OtherCurrentLiabilities": {
+      "xml_tag": "in-bse-fin:OtherCurrentLiabilities",
+      "description": "Other current liabilities",
+      "common_terms": [
+        "Other current liabilities"
+      ]
+    },
+    "ProvisionsCurrent": {
+      "xml_tag": "in-bse-fin:ProvisionsCurrent",
+      "description": "Provisions, current",
+      "common_terms": [
+        "Provisions, current"
+      ]
+    },
+    "CurrentTaxLiabilities": {
+      "xml_tag": "in-bse-fin:CurrentTaxLiabilities",
+      "description": "Current tax liabilities",
+      "common_terms": [
+        "Current tax liabilities"
+      ]
+    },
+    "DeferredGovernmentGrantsCurrent": {
+      "xml_tag": "in-bse-fin:DeferredGovernmentGrantsCurrent",
+      "description": "Deferred government grants, Current",
+      "common_terms": [
+        "Deferred government grants, Current"
+      ]
+    },
+    "CurrentLiabilities": {
+      "xml_tag": "in-bse-fin:CurrentLiabilities",
+      "description": "Total current liabilities",
+      "common_terms": [
+        "Total current liabilities"
+      ]
+    },
+    "LiabilitiesDirectlyAssociatedWithAssetsInDisposalGroupClassifiedAsHeldForSale": {
+      "xml_tag": "in-bse-fin:LiabilitiesDirectlyAssociatedWithAssetsInDisposalGroupClassifiedAsHeldForSale",
+      "description": "Liabilities directly associated with assets in disposal group classified as held for sale",
+      "common_terms": [
+        "Liabilities directly associated with assets in disposal group classified as held for sale"
+      ]
+    },
+    "RegulatoryDeferralAccountCreditBalancesAndRelatedDeferredTaxLiability": {
+      "xml_tag": "in-bse-fin:RegulatoryDeferralAccountCreditBalancesAndRelatedDeferredTaxLiability",
+      "description": "Regulatory deferral account credit balances and related deferred tax liability",
+      "common_terms": [
+        "Regulatory deferral account credit balances and related deferred tax liability"
+      ]
+    },
+    "Liabilities": {
+      "xml_tag": "in-bse-fin:Liabilities",
+      "description": "Total liabilities",
+      "common_terms": [
+        "Total liabilities"
+      ]
+    },
+    "EquityAndLiabilities": {
+      "xml_tag": "in-bse-fin:EquityAndLiabilities",
+      "description": "Total equity and liabilities",
+      "common_terms": [
+        "Total equity and liabilities"
+      ]
+    },
+    "DisclosureOfNotesOnAssetsAndLiabilitiesExplanatoryTextBlock": {
+      "xml_tag": "in-bse-fin:DisclosureOfNotesOnAssetsAndLiabilitiesExplanatoryTextBlock",
+      "description": "Disclosure of notes on assets and liabilities explanatory [Text Block]",
+      "common_terms": [
+        "Disclosure of notes on assets and liabilities explanatory [Text Block]"
+      ]
+    }
+  },
+  "ProfitAndLoss": {
+    "RevenueFromOperations": {
+      "xml_tag": "in-bse-fin:RevenueFromOperations",
+      "description": "Revenue from operations",
+      "common_terms": [
+        "Revenue from operations"
+      ]
+    },
+    "OtherIncome": {
+      "xml_tag": "in-bse-fin:OtherIncome",
+      "description": "Other income",
+      "common_terms": [
+        "Other income"
+      ]
+    },
+    "Income": {
+      "xml_tag": "in-bse-fin:Income",
+      "description": "Total income",
+      "common_terms": [
+        "Total income"
+      ]
+    },
+    "CostOfMaterialsConsumed": {
+      "xml_tag": "in-bse-fin:CostOfMaterialsConsumed",
+      "description": "Cost of materials consumed",
+      "common_terms": [
+        "Cost of materials consumed"
+      ]
+    },
+    "PurchasesOfStockInTrade": {
+      "xml_tag": "in-bse-fin:PurchasesOfStockInTrade",
+      "description": "Purchases of stock-in-trade",
+      "common_terms": [
+        "Purchases of stock-in-trade"
+      ]
+    },
+    "ChangesInInventoriesOfFinishedGoodsWorkInProgressAndStockInTrade": {
+      "xml_tag": "in-bse-fin:ChangesInInventoriesOfFinishedGoodsWorkInProgressAndStockInTrade",
+      "description": "Changes in inventories of finished goods, work-in-progress and stock-in-trade",
+      "common_terms": [
+        "Changes in inventories of finished goods, work-in-progress and stock-in-trade"
+      ]
+    },
+    "EmployeeBenefitExpense": {
+      "xml_tag": "in-bse-fin:EmployeeBenefitExpense",
+      "description": "Employee benefit expense",
+      "common_terms": [
+        "Employee benefit expense"
+      ]
+    },
+    "FinanceCosts": {
+      "xml_tag": "in-bse-fin:FinanceCosts",
+      "description": "Finance costs",
+      "common_terms": [
+        "Finance costs"
+      ]
+    },
+    "DepreciationDepletionAndAmortisationExpense": {
+      "xml_tag": "in-bse-fin:DepreciationDepletionAndAmortisationExpense",
+      "description": "Depreciation, depletion and amortisation expense",
+      "common_terms": [
+        "Depreciation, depletion and amortisation expense"
+      ]
+    },
+    "OtherExpenses": {
+      "xml_tag": "in-bse-fin:OtherExpenses",
+      "description": "Other expenses",
+      "common_terms": [
+        "Other expenses"
+      ]
+    },
+    "Expenses": {
+      "xml_tag": "in-bse-fin:Expenses",
+      "description": "Total Expenses",
+      "common_terms": [
+        "Total Expenses"
+      ]
+    },
+    "ProfitBeforeExceptionalItemsAndTax": {
+      "xml_tag": "in-bse-fin:ProfitBeforeExceptionalItemsAndTax",
+      "description": "Total profit before exceptional items and tax",
+      "common_terms": [
+        "Total profit before exceptional items and tax"
+      ]
+    },
+    "ExceptionalItemsBeforeTax": {
+      "xml_tag": "in-bse-fin:ExceptionalItemsBeforeTax",
+      "description": "Exceptional items before tax",
+      "common_terms": [
+        "Exceptional items before tax"
+      ]
+    },
+    "ProfitBeforeTax": {
+      "xml_tag": "in-bse-fin:ProfitBeforeTax",
+      "description": "Total profit before tax",
+      "common_terms": [
+        "Total profit before tax"
+      ]
+    },
+    "CurrentTax": {
+      "xml_tag": "in-bse-fin:CurrentTax",
+      "description": "Current tax",
+      "common_terms": [
+        "Current tax"
+      ]
+    },
+    "DeferredTax": {
+      "xml_tag": "in-bse-fin:DeferredTax",
+      "description": "Deferred tax",
+      "common_terms": [
+        "Deferred tax"
+      ]
+    },
+    "TaxExpense": {
+      "xml_tag": "in-bse-fin:TaxExpense",
+      "description": "Total tax expense",
+      "common_terms": [
+        "Total tax expense"
+      ]
+    },
+    "NetMovementInRegulatoryDeferralAccountBalancesRelatedToProfitOrLossAndTheRelatedDeferredTaxMovement": {
+      "xml_tag": "in-bse-fin:NetMovementInRegulatoryDeferralAccountBalancesRelatedToProfitOrLossAndTheRelatedDeferredTaxMovement",
+      "description": "Net movement in regulatory deferral account balances related to profit or loss and the related deferred tax movement",
+      "common_terms": [
+        "Net movement in regulatory deferral account balances related to profit or loss and the related deferred tax movement"
+      ]
+    },
+    "ProfitLossForPeriodFromContinuingOperations": {
+      "xml_tag": "in-bse-fin:ProfitLossForPeriodFromContinuingOperations",
+      "description": "Net profit (loss) for period from continuing operations",
+      "common_terms": [
+        "Net profit (loss) for period from continuing operations"
+      ]
+    },
+    "ProfitLossFromDiscontinuedOperationsBeforeTax": {
+      "xml_tag": "in-bse-fin:ProfitLossFromDiscontinuedOperationsBeforeTax",
+      "description": "Profit (loss) from discontinued operations before tax",
+      "common_terms": [
+        "Profit (loss) from discontinued operations before tax"
+      ]
+    },
+    "TaxExpenseOfDiscontinuedOperations": {
+      "xml_tag": "in-bse-fin:TaxExpenseOfDiscontinuedOperations",
+      "description": "Tax expense of discontinued operations",
+      "common_terms": [
+        "Tax expense of discontinued operations"
+      ]
+    },
+    "ProfitLossFromDiscontinuedOperationsAfterTax": {
+      "xml_tag": "in-bse-fin:ProfitLossFromDiscontinuedOperationsAfterTax",
+      "description": "Net profit (loss) from discontinued operations after tax",
+      "common_terms": [
+        "Net profit (loss) from discontinued operations after tax"
+      ]
+    },
+    "ShareOfProfitLossOfAssociatesAndJointVenturesAccountedForUsingEquityMethod": {
+      "xml_tag": "in-bse-fin:ShareOfProfitLossOfAssociatesAndJointVenturesAccountedForUsingEquityMethod",
+      "description": "Share of profit (loss) of associates and joint ventures accounted for using equity method",
+      "common_terms": [
+        "Share of profit (loss) of associates and joint ventures accounted for using equity method"
+      ]
+    },
+    "ProfitLossForPeriod": {
+      "xml_tag": "in-bse-fin:ProfitLossForPeriod",
+      "description": "Total profit (loss) for period",
+      "common_terms": [
+        "Total profit (loss) for period"
+      ]
+    },
+    "OtherComprehensiveIncomeNetOfTaxes": {
+      "xml_tag": "in-bse-fin:OtherComprehensiveIncomeNetOfTaxes",
+      "description": "Other comprehensive income net of taxes",
+      "common_terms": [
+        "Other comprehensive income net of taxes"
+      ]
+    },
+    "ComprehensiveIncomeForThePeriod": {
+      "xml_tag": "in-bse-fin:ComprehensiveIncomeForThePeriod",
+      "description": "Total comprehensive income for the period",
+      "common_terms": [
+        "Total comprehensive income for the period"
+      ]
+    },
+    "ProfitOrLossAttributableToOwnersOfParent": {
+      "xml_tag": "in-bse-fin:ProfitOrLossAttributableToOwnersOfParent",
+      "description": "Profit or loss, attributable to owners of parent",
+      "common_terms": [
+        "Profit or loss, attributable to owners of parent"
+      ]
+    },
+    "ProfitOrLossAttributableToNonControllingInterests": {
+      "xml_tag": "in-bse-fin:ProfitOrLossAttributableToNonControllingInterests",
+      "description": "Profit or loss, attributable to non-controlling interests",
+      "common_terms": [
+        "Profit or loss, attributable to non-controlling interests"
+      ]
+    },
+    "ComprehensiveIncomeForThePeriodAttributableToOwnersOfParent": {
+      "xml_tag": "in-bse-fin:ComprehensiveIncomeForThePeriodAttributableToOwnersOfParent",
+      "description": "Total comprehensive income for the period attributable to owners of parent",
+      "common_terms": [
+        "Total comprehensive income for the period attributable to owners of parent"
+      ]
+    },
+    "ComprehensiveIncomeForThePeriodAttributableToOwnersOfParentNonControllingInterests": {
+      "xml_tag": "in-bse-fin:ComprehensiveIncomeForThePeriodAttributableToOwnersOfParentNonControllingInterests",
+      "description": "Total comprehensive income for the period attributable to owners of parent non-controlling interests",
+      "common_terms": [
+        "Total comprehensive income for the period attributable to owners of parent non-controlling interests"
+      ]
+    },
+    "PaidUpValueOfEquityShareCapital": {
+      "xml_tag": "in-bse-fin:PaidUpValueOfEquityShareCapital",
+      "description": "Paid-up equity share capital",
+      "common_terms": [
+        "Paid-up equity share capital"
+      ]
+    },
+    "FaceValueOfEquityShareCapital": {
+      "xml_tag": "in-bse-fin:FaceValueOfEquityShareCapital",
+      "description": "Face value of equity share capital",
+      "common_terms": [
+        "Face value of equity share capital"
+      ]
+    },
+    "ReserveExcludingRevaluationReserves": {
+      "xml_tag": "in-bse-fin:ReserveExcludingRevaluationReserves",
+      "description": "Reserve excluding revaluation reserves",
+      "common_terms": [
+        "Reserve excluding revaluation reserves"
+      ]
+    },
+    "BasicEarningsLossPerShareFromContinuingOperations": {
+      "xml_tag": "in-bse-fin:BasicEarningsLossPerShareFromContinuingOperations",
+      "description": "Basic earnings (loss) per share from continuing operations",
+      "common_terms": [
+        "Basic earnings (loss) per share from continuing operations"
+      ]
+    },
+    "DilutedEarningsLossPerShareFromContinuingOperations": {
+      "xml_tag": "in-bse-fin:DilutedEarningsLossPerShareFromContinuingOperations",
+      "description": "Diluted earnings (loss) per share from continuing operations",
+      "common_terms": [
+        "Diluted earnings (loss) per share from continuing operations"
+      ]
+    },
+    "BasicEarningsLossPerShareFromDiscontinuedOperations": {
+      "xml_tag": "in-bse-fin:BasicEarningsLossPerShareFromDiscontinuedOperations",
+      "description": "Basic earnings (loss) per share from discontinued operations",
+      "common_terms": [
+        "Basic earnings (loss) per share from discontinued operations"
+      ]
+    },
+    "DilutedEarningsLossPerShareFromDiscontinuedOperations": {
+      "xml_tag": "in-bse-fin:DilutedEarningsLossPerShareFromDiscontinuedOperations",
+      "description": "Diluted earnings (loss) per share from discontinued operations",
+      "common_terms": [
+        "Diluted earnings (loss) per share from discontinued operations"
+      ]
+    },
+    "BasicEarningsLossPerShareFromContinuingAndDiscontinuedOperations": {
+      "xml_tag": "in-bse-fin:BasicEarningsLossPerShareFromContinuingAndDiscontinuedOperations",
+      "description": "Total basic earnings (loss) per share from continuing and discontinued operations",
+      "common_terms": [
+        "Total basic earnings (loss) per share from continuing and discontinued operations"
+      ]
+    },
+    "DilutedEarningsLossPerShareFromContinuingAndDiscontinuedOperations": {
+      "xml_tag": "in-bse-fin:DilutedEarningsLossPerShareFromContinuingAndDiscontinuedOperations",
+      "description": "Total diluted earnings (loss) per share from continuing and discontinued operations",
+      "common_terms": [
+        "Total diluted earnings (loss) per share from continuing and discontinued operations"
+      ]
+    },
+    "DebtEquityRatio": {
+      "xml_tag": "in-bse-fin:DebtEquityRatio",
+      "description": "Debt equity ratio",
+      "common_terms": [
+        "Debt equity ratio"
+      ]
+    },
+    "DebtServiceCoverageRatio": {
+      "xml_tag": "in-bse-fin:DebtServiceCoverageRatio",
+      "description": "Debt service coverage ratio",
+      "common_terms": [
+        "Debt service coverage ratio"
+      ]
+    },
+    "InterestServiceCoverageRatio": {
+      "xml_tag": "in-bse-fin:InterestServiceCoverageRatio",
+      "description": "Interest service coverage ratio",
+      "common_terms": [
+        "Interest service coverage ratio"
+      ]
+    },
+    "DisclosureOfNotesOnFinancialResultsExplanatoryTextBlock": {
+      "xml_tag": "in-bse-fin:DisclosureOfNotesOnFinancialResultsExplanatoryTextBlock",
+      "description": "Disclosure of notes on financial results explanatory [Text Block]",
+      "common_terms": [
+        "Disclosure of notes on financial results explanatory [Text Block]"
+      ]
+    }
+  },
+  "DisclosureOfGeneralInformationAboutCompany": {
+    "ScripCode": {
+      "xml_tag": "in-bse-fin:ScripCode",
+      "description": "Scrip code",
+      "common_terms": [
+        "Scrip code"
+      ]
+    },
+    "Symbol": {
+      "xml_tag": "in-bse-fin:Symbol",
+      "description": "Symbol",
+      "common_terms": [
+        "Symbol"
+      ]
+    },
+    "MSEISymbol": {
+      "xml_tag": "in-bse-fin:MSEISymbol",
+      "description": "MSEI symbol",
+      "common_terms": [
+        "MSEI symbol"
+      ]
+    },
+    "ISIN": {
+      "xml_tag": "in-bse-fin:ISIN",
+      "description": "ISIN",
+      "common_terms": [
+        "ISIN"
+      ]
+    },
+    "NameOfTheCompany": {
+      "xml_tag": "in-bse-fin:NameOfTheCompany",
+      "description": "Name of the company",
+      "common_terms": [
+        "Name of the company"
+      ]
+    },
+    "ClassOfSecurity": {
+      "xml_tag": "in-bse-fin:ClassOfSecurity",
+      "description": "Class of security",
+      "common_terms": [
+        "Class of security"
+      ]
+    },
+    "TypeOfCompany": {
+      "xml_tag": "in-bse-fin:TypeOfCompany",
+      "description": "Type of company",
+      "common_terms": [
+        "Type of company"
+      ]
+    },
+    "DateOfStartOfFinancialYear": {
+      "xml_tag": "in-bse-fin:DateOfStartOfFinancialYear",
+      "description": "Date of start of financial year",
+      "common_terms": [
+        "Date of start of financial year"
+      ]
+    },
+    "DateOfEndOfFinancialYear": {
+      "xml_tag": "in-bse-fin:DateOfEndOfFinancialYear",
+      "description": "Date of end of financial year",
+      "common_terms": [
+        "Date of end of financial year"
+      ]
+    },
+    "DateOfStartOfReportingPeriod": {
+      "xml_tag": "in-bse-fin:DateOfStartOfReportingPeriod",
+      "description": "Date of start of reporting period",
+      "common_terms": [
+        "Date of start of reporting period"
+      ]
+    },
+    "DateOfEndOfReportingPeriod": {
+      "xml_tag": "in-bse-fin:DateOfEndOfReportingPeriod",
+      "description": "Date of end of reporting period",
+      "common_terms": [
+        "Date of end of reporting period"
+      ]
+    },
+    "DateOfBoardMeetingWhenFinancialResultsWereApproved": {
+      "xml_tag": "in-bse-fin:DateOfBoardMeetingWhenFinancialResultsWereApproved",
+      "description": "Date of board meeting when financial results were approved",
+      "common_terms": [
+        "Date of board meeting when financial results were approved"
+      ]
+    },
+    "DateOnWhichPriorIntimationOfTheMeetingForConsideringFinancialResultsWasInformedToTheExchange": {
+      "xml_tag": "in-bse-fin:DateOnWhichPriorIntimationOfTheMeetingForConsideringFinancialResultsWasInformedToTheExchange",
+      "description": "Date on which prior intimation of the meeting for considering financial results was informed to the exchange",
+      "common_terms": [
+        "Date on which prior intimation of the meeting for considering financial results was informed to the exchange"
+      ]
+    },
+    "NatureOfReportStandaloneConsolidated": {
+      "xml_tag": "in-bse-fin:NatureOfReportStandaloneConsolidated",
+      "description": "Nature of report standalone consolidated",
+      "common_terms": [
+        "Nature of report standalone consolidated"
+      ]
+    },
+    "ReportingQuarter": {
+      "xml_tag": "in-bse-fin:ReportingQuarter",
+      "description": "Reporting quarter",
+      "common_terms": [
+        "Reporting quarter"
+      ]
+    },
+    "DescriptionOfPresentationCurrency": {
+      "xml_tag": "in-bse-fin:DescriptionOfPresentationCurrency",
+      "description": "Description of presentation currency",
+      "common_terms": [
+        "Description of presentation currency"
+      ]
+    },
+    "LevelOfRoundingUsedInFinancialStatements": {
+      "xml_tag": "in-bse-fin:LevelOfRoundingUsedInFinancialStatements",
+      "description": "Level of rounding used in financial statements",
+      "common_terms": [
+        "Level of rounding used in financial statements"
+      ]
+    },
+    "WhetherResultsAreAuditedOrUnaudited": {
+      "xml_tag": "in-bse-fin:WhetherResultsAreAuditedOrUnaudited",
+      "description": "Whether results are audited or unaudited",
+      "common_terms": [
+        "Whether results are audited or unaudited"
+      ]
+    },
+    "IsCompanyReportingMultisegmentOrSingleSegment": {
+      "xml_tag": "in-bse-fin:IsCompanyReportingMultisegmentOrSingleSegment",
+      "description": "Is company reporting multisegment or single segment",
+      "common_terms": [
+        "Is company reporting multisegment or single segment"
+      ]
+    },
+    "DescriptionOfSingleSegment": {
+      "xml_tag": "in-bse-fin:DescriptionOfSingleSegment",
+      "description": "Description of single segment",
+      "common_terms": [
+        "Description of single segment"
+      ]
+    },
+    "DateOfStartOfBoardMeeting": {
+      "xml_tag": "in-bse-fin:DateOfStartOfBoardMeeting",
+      "description": "Date of start of board meeting",
+      "common_terms": [
+        "Date of start of board meeting"
+      ]
+    },
+    "DateOfEndOfBoardMeeting": {
+      "xml_tag": "in-bse-fin:DateOfEndOfBoardMeeting",
+      "description": "Date of end of board meeting",
+      "common_terms": [
+        "Date of end of board meeting"
+      ]
+    },
+    "StartTimeOfBoardMeeting": {
+      "xml_tag": "in-bse-fin:StartTimeOfBoardMeeting",
+      "description": "Start time of board meeting",
+      "common_terms": [
+        "Start time of board meeting"
+      ]
+    },
+    "EndTimeOfBoardMeeting": {
+      "xml_tag": "in-bse-fin:EndTimeOfBoardMeeting",
+      "description": "End time of board meeting",
+      "common_terms": [
+        "End time of board meeting"
+      ]
+    },
+    "DeclarationOfUnmodifiedOpinionOrStatementOnImpactOfAuditQualification": {
+      "xml_tag": "in-bse-fin:DeclarationOfUnmodifiedOpinionOrStatementOnImpactOfAuditQualification",
+      "description": "Declaration of unmodified opinion or statement on impact of audit qualification",
+      "common_terms": [
+        "Declaration of unmodified opinion or statement on impact of audit qualification"
+      ]
+    },
+    "WhetherCashFlowStatementIsApplicableOnCompany": {
+      "xml_tag": "in-bse-fin:WhetherCashFlowStatementIsApplicableOnCompany",
+      "description": "Whether cash flow statement is applicable on company",
+      "common_terms": [
+        "Whether cash flow statement is applicable on company"
+      ]
+    },
+    "TypeOfCashFlowStatement": {
+      "xml_tag": "in-bse-fin:TypeOfCashFlowStatement",
+      "description": "Type of cash flow statement",
+      "common_terms": [
+        "Type of cash flow statement"
+      ]
+    },
+    "DetailsOfOtherExpensesTable": {
+      "xml_tag": "in-bse-fin:DetailsOfOtherExpensesTable",
+      "description": "Details of other expenses [Table]",
+      "common_terms": [
+        "Details of other expenses [Table]"
+      ]
+    },
+    "DetailsOfOtherExpensesAxis": {
+      "xml_tag": "in-bse-fin:DetailsOfOtherExpensesAxis",
+      "description": "Details of other expenses [Axis]",
+      "common_terms": [
+        "Details of other expenses [Axis]"
+      ]
+    },
+    "OtherExpensesMember": {
+      "xml_tag": "in-bse-fin:OtherExpensesMember",
+      "description": "Other expenses [Member]",
+      "common_terms": [
+        "Other expenses [Member]"
+      ]
+    },
+    "OtherExpenses1Member": {
+      "xml_tag": "in-bse-fin:OtherExpenses1Member",
+      "description": "Other expenses 1 [Member]",
+      "common_terms": [
+        "Other expenses 1 [Member]"
+      ]
+    },
+    "OtherExpenses2Member": {
+      "xml_tag": "in-bse-fin:OtherExpenses2Member",
+      "description": "Other expenses 2 [Member]",
+      "common_terms": [
+        "Other expenses 2 [Member]"
+      ]
+    },
+    "OtherExpenses3Member": {
+      "xml_tag": "in-bse-fin:OtherExpenses3Member",
+      "description": "Other expenses 3 [Member]",
+      "common_terms": [
+        "Other expenses 3 [Member]"
+      ]
+    },
+    "OtherExpenses4Member": {
+      "xml_tag": "in-bse-fin:OtherExpenses4Member",
+      "description": "Other expenses 4 [Member]",
+      "common_terms": [
+        "Other expenses 4 [Member]"
+      ]
+    },
+    "OtherExpenses5Member": {
+      "xml_tag": "in-bse-fin:OtherExpenses5Member",
+      "description": "Other expenses 5 [Member]",
+      "common_terms": [
+        "Other expenses 5 [Member]"
+      ]
+    },
+    "OtherExpenses6Member": {
+      "xml_tag": "in-bse-fin:OtherExpenses6Member",
+      "description": "Other expenses 6 [Member]",
+      "common_terms": [
+        "Other expenses 6 [Member]"
+      ]
+    },
+    "OtherExpenses7Member": {
+      "xml_tag": "in-bse-fin:OtherExpenses7Member",
+      "description": "Other expenses 7 [Member]",
+      "common_terms": [
+        "Other expenses 7 [Member]"
+      ]
+    },
+    "OtherExpenses8Member": {
+      "xml_tag": "in-bse-fin:OtherExpenses8Member",
+      "description": "Other expenses 8 [Member]",
+      "common_terms": [
+        "Other expenses 8 [Member]"
+      ]
+    },
+    "OtherExpenses9Member": {
+      "xml_tag": "in-bse-fin:OtherExpenses9Member",
+      "description": "Other expenses 9 [Member]",
+      "common_terms": [
+        "Other expenses 9 [Member]"
+      ]
+    },
+    "OtherExpenses10Member": {
+      "xml_tag": "in-bse-fin:OtherExpenses10Member",
+      "description": "Other expenses 10 [Member]",
+      "common_terms": [
+        "Other expenses 10 [Member]"
+      ]
+    },
+    "DetailsOfOtherExpensesLineItems": {
+      "xml_tag": "in-bse-fin:DetailsOfOtherExpensesLineItems",
+      "description": "Details of other expenses  [line items]",
+      "common_terms": [
+        "Details of other expenses  [line items]"
+      ]
+    },
+    "DescriptionOfOtherExpenses": {
+      "xml_tag": "in-bse-fin:DescriptionOfOtherExpenses",
+      "description": "Description of other expenses",
+      "common_terms": [
+        "Description of other expenses"
+      ]
+    },
+    "OtherExpenses": {
+      "xml_tag": "in-bse-fin:OtherExpenses",
+      "description": "Other expenses",
+      "common_terms": [
+        "Other expenses"
+      ]
+    },
+    "OtherComprehensiveItemsThatWillNotBeReclassifiedToProfitAndLossTable": {
+      "xml_tag": "in-bse-fin:OtherComprehensiveItemsThatWillNotBeReclassifiedToProfitAndLossTable",
+      "description": "Other comprehensive items that will not be reclassified to profit and loss [Table]",
+      "common_terms": [
+        "Other comprehensive items that will not be reclassified to profit and loss [Table]"
+      ]
+    },
+    "ItemsThatWillNotBeReclassifiedToProfitAndLossAxis": {
+      "xml_tag": "in-bse-fin:ItemsThatWillNotBeReclassifiedToProfitAndLossAxis",
+      "description": "Items that will not be reclassified to profit and loss [Axis]",
+      "common_terms": [
+        "Items that will not be reclassified to profit and loss [Axis]"
+      ]
+    },
+    "OtherComprehensiveItemsThatWillNotBeReclassifiedToProfitAndLossLineItems": {
+      "xml_tag": "in-bse-fin:OtherComprehensiveItemsThatWillNotBeReclassifiedToProfitAndLossLineItems",
+      "description": "Other comprehensive items that will not be reclassified to profit and loss [Line items]",
+      "common_terms": [
+        "Other comprehensive items that will not be reclassified to profit and loss [Line items]"
+      ]
+    },
+    "DescriptionOfItemThatWillNotBeReclassifiedToProfitAndLoss": {
+      "xml_tag": "in-bse-fin:DescriptionOfItemThatWillNotBeReclassifiedToProfitAndLoss",
+      "description": "Description of item that will not be reclassified to profit and loss",
+      "common_terms": [
+        "Description of item that will not be reclassified to profit and loss"
+      ]
+    },
+    "AmountOfItemThatWillNotBeReclassifiedToProfitAndLoss": {
+      "xml_tag": "in-bse-fin:AmountOfItemThatWillNotBeReclassifiedToProfitAndLoss",
+      "description": "Amount of item that will not be reclassified to profit and loss",
+      "common_terms": [
+        "Amount of item that will not be reclassified to profit and loss"
+      ]
+    },
+    "OtherComprehensiveItemsThatWillBeReclassifiedToProfitAndLossTable": {
+      "xml_tag": "in-bse-fin:OtherComprehensiveItemsThatWillBeReclassifiedToProfitAndLossTable",
+      "description": "Other comprehensive items that will be reclassified to profit and loss [Table]",
+      "common_terms": [
+        "Other comprehensive items that will be reclassified to profit and loss [Table]"
+      ]
+    },
+    "ItemsThatWillBeReclassifiedToProfitAndLossAxis": {
+      "xml_tag": "in-bse-fin:ItemsThatWillBeReclassifiedToProfitAndLossAxis",
+      "description": "Items that will be reclassified to profit and loss [Axis]",
+      "common_terms": [
+        "Items that will be reclassified to profit and loss [Axis]"
+      ]
+    },
+    "OtherComprehensiveItemsThatWillBeReclassifiedToProfitAndLossLineItems": {
+      "xml_tag": "in-bse-fin:OtherComprehensiveItemsThatWillBeReclassifiedToProfitAndLossLineItems",
+      "description": "Other comprehensive items that will be reclassified to profit and loss [Line items]",
+      "common_terms": [
+        "Other comprehensive items that will be reclassified to profit and loss [Line items]"
+      ]
+    },
+    "DescriptionOfItemThatWillBeReclassifiedToProfitAndLoss": {
+      "xml_tag": "in-bse-fin:DescriptionOfItemThatWillBeReclassifiedToProfitAndLoss",
+      "description": "Description of item that will be reclassified to profit and loss",
+      "common_terms": [
+        "Description of item that will be reclassified to profit and loss"
+      ]
+    },
+    "AmountOfItemThatWillBeReclassifiedToProfitAndLoss": {
+      "xml_tag": "in-bse-fin:AmountOfItemThatWillBeReclassifiedToProfitAndLoss",
+      "description": "Amount of item that will be reclassified to profit and loss",
+      "common_terms": [
+        "Amount of item that will be reclassified to profit and loss"
+      ]
+    },
+    "IncomeTaxRelatingToItmesThatWillNotBeReclassifiedToProfitOrLoss": {
+      "xml_tag": "in-bse-fin:IncomeTaxRelatingToItmesThatWillNotBeReclassifiedToProfitOrLoss",
+      "description": "Income tax relating to items that will not be reclassified to profit or loss",
+      "common_terms": [
+        "Income tax relating to items that will not be reclassified to profit or loss"
+      ]
+    },
+    "IncomeTaxRelatingToItmesThatWillBeReclassifiedToProfitOrLoss": {
+      "xml_tag": "in-bse-fin:IncomeTaxRelatingToItmesThatWillBeReclassifiedToProfitOrLoss",
+      "description": "Income tax relating to items that will be reclassified to profit or loss",
+      "common_terms": [
+        "Income tax relating to items that will be reclassified to profit or loss"
+      ]
+    },
+    "OtherComprehensiveIncome": {
+      "xml_tag": "in-bse-fin:OtherComprehensiveIncome",
+      "description": "Other comprehensive income",
+      "common_terms": [
+        "Other comprehensive income"
+      ]
+    },
+    "DisclosuresRelatingToSegmentRevenueTable": {
+      "xml_tag": "in-bse-fin:DisclosuresRelatingToSegmentRevenueTable",
+      "description": "Disclosures relating to segment revenue [Table]",
+      "common_terms": [
+        "Disclosures relating to segment revenue [Table]"
+      ]
+    },
+    "ReportableSegmentsAxis": {
+      "xml_tag": "in-bse-fin:ReportableSegmentsAxis",
+      "description": "Reportable segments [Axis]",
+      "common_terms": [
+        "Reportable segments [Axis]"
+      ]
+    },
+    "ReportableSegmentsMember": {
+      "xml_tag": "in-bse-fin:ReportableSegmentsMember",
+      "description": "Reportable segments [Member]",
+      "common_terms": [
+        "Reportable segments [Member]"
+      ]
+    },
+    "ReportableSegments1Member": {
+      "xml_tag": "in-bse-fin:ReportableSegments1Member",
+      "description": "Reportable segments 1 [Member]",
+      "common_terms": [
+        "Reportable segments 1 [Member]"
+      ]
+    },
+    "ReportableSegments2Member": {
+      "xml_tag": "in-bse-fin:ReportableSegments2Member",
+      "description": "Reportable segments 2 [Member]",
+      "common_terms": [
+        "Reportable segments 2 [Member]"
+      ]
+    },
+    "ReportableSegments3Member": {
+      "xml_tag": "in-bse-fin:ReportableSegments3Member",
+      "description": "Reportable segments 3 [Member]",
+      "common_terms": [
+        "Reportable segments 3 [Member]"
+      ]
+    },
+    "ReportableSegments4Member": {
+      "xml_tag": "in-bse-fin:ReportableSegments4Member",
+      "description": "Reportable segments 4 [Member]",
+      "common_terms": [
+        "Reportable segments 4 [Member]"
+      ]
+    },
+    "ReportableSegments5Member": {
+      "xml_tag": "in-bse-fin:ReportableSegments5Member",
+      "description": "Reportable segments 5 [Member]",
+      "common_terms": [
+        "Reportable segments 5 [Member]"
+      ]
+    },
+    "ReportableSegments6Member": {
+      "xml_tag": "in-bse-fin:ReportableSegments6Member",
+      "description": "Reportable segments 6 [Member]",
+      "common_terms": [
+        "Reportable segments 6 [Member]"
+      ]
+    },
+    "ReportableSegments7Member": {
+      "xml_tag": "in-bse-fin:ReportableSegments7Member",
+      "description": "Reportable segments 7 [Member]",
+      "common_terms": [
+        "Reportable segments 7 [Member]"
+      ]
+    },
+    "ReportableSegments8Member": {
+      "xml_tag": "in-bse-fin:ReportableSegments8Member",
+      "description": "Reportable segments 8 [Member]",
+      "common_terms": [
+        "Reportable segments 8 [Member]"
+      ]
+    },
+    "ReportableSegments9Member": {
+      "xml_tag": "in-bse-fin:ReportableSegments9Member",
+      "description": "Reportable segments 9 [Member]",
+      "common_terms": [
+        "Reportable segments 9 [Member]"
+      ]
+    },
+    "ReportableSegments10Member": {
+      "xml_tag": "in-bse-fin:ReportableSegments10Member",
+      "description": "Reportable segments 10 [Member]",
+      "common_terms": [
+        "Reportable segments 10 [Member]"
+      ]
+    },
+    "ReportableSegments11Member": {
+      "xml_tag": "in-bse-fin:ReportableSegments11Member",
+      "description": "Reportable segments 11 [Member]",
+      "common_terms": [
+        "Reportable segments 11 [Member]"
+      ]
+    },
+    "ReportableSegments12Member": {
+      "xml_tag": "in-bse-fin:ReportableSegments12Member",
+      "description": "Reportable segments 12 [Member]",
+      "common_terms": [
+        "Reportable segments 12 [Member]"
+      ]
+    },
+    "ReportableSegments13Member": {
+      "xml_tag": "in-bse-fin:ReportableSegments13Member",
+      "description": "Reportable segments 13 [Member]",
+      "common_terms": [
+        "Reportable segments 13 [Member]"
+      ]
+    },
+    "ReportableSegments14Member": {
+      "xml_tag": "in-bse-fin:ReportableSegments14Member",
+      "description": "Reportable segments 14 [Member]",
+      "common_terms": [
+        "Reportable segments 14 [Member]"
+      ]
+    },
+    "ReportableSegments15Member": {
+      "xml_tag": "in-bse-fin:ReportableSegments15Member",
+      "description": "Reportable segments 15 [Member]",
+      "common_terms": [
+        "Reportable segments 15 [Member]"
+      ]
+    },
+    "DisclosuresRelatingToSegmentRevenueLineItems": {
+      "xml_tag": "in-bse-fin:DisclosuresRelatingToSegmentRevenueLineItems",
+      "description": "Disclosures relating to segment revenue [Lineitems]",
+      "common_terms": [
+        "Disclosures relating to segment revenue [Lineitems]"
+      ]
+    },
+    "DescriptionOfReportableSegment": {
+      "xml_tag": "in-bse-fin:DescriptionOfReportableSegment",
+      "description": "Description of reportable segment",
+      "common_terms": [
+        "Description of reportable segment"
+      ]
+    },
+    "SegmentRevenue": {
+      "xml_tag": "in-bse-fin:SegmentRevenue",
+      "description": "Segment revenue",
+      "common_terms": [
+        "Segment revenue"
+      ]
+    },
+    "InterSegmentRevenue": {
+      "xml_tag": "in-bse-fin:InterSegmentRevenue",
+      "description": "Inter segment revenue",
+      "common_terms": [
+        "Inter segment revenue"
+      ]
+    },
+    "SegmentRevenueFromOperations": {
+      "xml_tag": "in-bse-fin:SegmentRevenueFromOperations",
+      "description": "Revenue from operations",
+      "common_terms": [
+        "Revenue from operations"
+      ]
+    },
+    "DisclosuresRelatingToSegmentResultTable": {
+      "xml_tag": "in-bse-fin:DisclosuresRelatingToSegmentResultTable",
+      "description": "Disclosures relating to segment result [Table]",
+      "common_terms": [
+        "Disclosures relating to segment result [Table]"
+      ]
+    },
+    "ReportableSegmentsFinanceCostsAxis": {
+      "xml_tag": "in-bse-fin:ReportableSegmentsFinanceCostsAxis",
+      "description": "Reportable segments finance costs [Axis]",
+      "common_terms": [
+        "Reportable segments finance costs [Axis]"
+      ]
+    },
+    "DisclosuresRelatingToSegmentResultLineItems": {
+      "xml_tag": "in-bse-fin:DisclosuresRelatingToSegmentResultLineItems",
+      "description": "Disclosures relating to segment result [Lineitems]",
+      "common_terms": [
+        "Disclosures relating to segment result [Lineitems]"
+      ]
+    },
+    "SegmentProfitLossBeforeTaxAndFinanceCosts": {
+      "xml_tag": "in-bse-fin:SegmentProfitLossBeforeTaxAndFinanceCosts",
+      "description": "Segment profit (loss) before tax and finance costs",
+      "common_terms": [
+        "Segment profit (loss) before tax and finance costs"
+      ]
+    },
+    "SegmentFinanceCosts": {
+      "xml_tag": "in-bse-fin:SegmentFinanceCosts",
+      "description": "Segment finance costs",
+      "common_terms": [
+        "Segment finance costs"
+      ]
+    },
+    "OtherUnallocableExpenditureNetOffUnAllocableIncome": {
+      "xml_tag": "in-bse-fin:OtherUnallocableExpenditureNetOffUnAllocableIncome",
+      "description": "Other unallocable expenditure net off un-allocable income",
+      "common_terms": [
+        "Other unallocable expenditure net off un-allocable income"
+      ]
+    },
+    "SegmentProfitBeforeTax": {
+      "xml_tag": "in-bse-fin:SegmentProfitBeforeTax",
+      "description": "Profit before tax",
+      "common_terms": [
+        "Profit before tax"
+      ]
+    },
+    "DisclosuresRelatingToSegmentAssetsTable": {
+      "xml_tag": "in-bse-fin:DisclosuresRelatingToSegmentAssetsTable",
+      "description": "Disclosures relating to segment assets [Table]",
+      "common_terms": [
+        "Disclosures relating to segment assets [Table]"
+      ]
+    },
+    "ReportableSegmentAssetsAxis": {
+      "xml_tag": "in-bse-fin:ReportableSegmentAssetsAxis",
+      "description": "Reportable segment assets [Axis]",
+      "common_terms": [
+        "Reportable segment assets [Axis]"
+      ]
+    },
+    "DisclosuresRelatingToSegmentAssetsLineItems": {
+      "xml_tag": "in-bse-fin:DisclosuresRelatingToSegmentAssetsLineItems",
+      "description": "Disclosures relating to segment assets [Line Items]",
+      "common_terms": [
+        "Disclosures relating to segment assets [Line Items]"
+      ]
+    },
+    "SegmentAssets": {
+      "xml_tag": "in-bse-fin:SegmentAssets",
+      "description": "Segment assets",
+      "common_terms": [
+        "Segment assets"
+      ]
+    },
+    "UnAllocableAssets": {
+      "xml_tag": "in-bse-fin:UnAllocableAssets",
+      "description": "Un-allocable assets",
+      "common_terms": [
+        "Un-allocable assets"
+      ]
+    },
+    "NetSegmentAssets": {
+      "xml_tag": "in-bse-fin:NetSegmentAssets",
+      "description": "Net segment assets",
+      "common_terms": [
+        "Net segment assets"
+      ]
+    },
+    "DisclosuresRelatingToSegmentLiabilitiesTable": {
+      "xml_tag": "in-bse-fin:DisclosuresRelatingToSegmentLiabilitiesTable",
+      "description": "Disclosures relating to segment liabilities [Table]",
+      "common_terms": [
+        "Disclosures relating to segment liabilities [Table]"
+      ]
+    },
+    "ReportableSegmentLiabilitiesAxis": {
+      "xml_tag": "in-bse-fin:ReportableSegmentLiabilitiesAxis",
+      "description": "Reportable segment liabilities [Axis]",
+      "common_terms": [
+        "Reportable segment liabilities [Axis]"
+      ]
+    },
+    "DisclosuresRelatingToSegmentLiabilitiesLineItems": {
+      "xml_tag": "in-bse-fin:DisclosuresRelatingToSegmentLiabilitiesLineItems",
+      "description": "Disclosures relating to segment liabilities [Line Items]",
+      "common_terms": [
+        "Disclosures relating to segment liabilities [Line Items]"
+      ]
+    },
+    "SegmentLiabilities": {
+      "xml_tag": "in-bse-fin:SegmentLiabilities",
+      "description": "Segment liabilities",
+      "common_terms": [
+        "Segment liabilities"
+      ]
+    },
+    "UnAllocableLiabilities": {
+      "xml_tag": "in-bse-fin:UnAllocableLiabilities",
+      "description": "Un-allocable liabilities",
+      "common_terms": [
+        "Un-allocable liabilities"
+      ]
+    },
+    "NetSegmentLiabilities": {
+      "xml_tag": "in-bse-fin:NetSegmentLiabilities",
+      "description": "Net segment liabilities",
+      "common_terms": [
+        "Net segment liabilities"
+      ]
+    },
+    "DisclosureOfNotesOnSegmentsExplanatoryTextBlock": {
+      "xml_tag": "in-bse-fin:DisclosureOfNotesOnSegmentsExplanatoryTextBlock",
+      "description": "Disclosure of notes on segments explanatory [text block]",
+      "common_terms": [
+        "Disclosure of notes on segments explanatory [text block]"
+      ]
+    }
+  },
+  "CashFlowStatementIndirect": {
+    "ProfitBeforeTax": {
+      "xml_tag": "in-bse-fin:ProfitBeforeTax",
+      "description": "Profit before tax",
+      "common_terms": [
+        "Profit before tax"
+      ]
+    },
+    "AdjustmentsForFinanceCosts": {
+      "xml_tag": "in-bse-fin:AdjustmentsForFinanceCosts",
+      "description": "Adjustments for finance costs",
+      "common_terms": [
+        "Adjustments for finance costs"
+      ]
+    },
+    "AdjustmentsForDecreaseIncreaseInInventories": {
+      "xml_tag": "in-bse-fin:AdjustmentsForDecreaseIncreaseInInventories",
+      "description": "Adjustments for decrease (increase) in inventories",
+      "common_terms": [
+        "Adjustments for decrease (increase) in inventories"
+      ]
+    },
+    "AdjustmentsForDecreaseIncreaseInTradeReceivablesCurrent": {
+      "xml_tag": "in-bse-fin:AdjustmentsForDecreaseIncreaseInTradeReceivablesCurrent",
+      "description": "Adjustments for decrease (increase) in trade receivables, current",
+      "common_terms": [
+        "Adjustments for decrease (increase) in trade receivables, current"
+      ]
+    },
+    "AdjustmentsForDecreaseIncreaseInTradeReceivablesNoncurrent": {
+      "xml_tag": "in-bse-fin:AdjustmentsForDecreaseIncreaseInTradeReceivablesNoncurrent",
+      "description": "Adjustments for decrease (increase) in trade receivables, non-current",
+      "common_terms": [
+        "Adjustments for decrease (increase) in trade receivables, non-current"
+      ]
+    },
+    "AdjustmentsForDecreaseIncreaseInOtherCurrentAssets": {
+      "xml_tag": "in-bse-fin:AdjustmentsForDecreaseIncreaseInOtherCurrentAssets",
+      "description": "Adjustments for decrease (increase) in other current assets",
+      "common_terms": [
+        "Adjustments for decrease (increase) in other current assets"
+      ]
+    },
+    "AdjustmentsForDecreaseIncreaseInOtherNoncurrentAssets": {
+      "xml_tag": "in-bse-fin:AdjustmentsForDecreaseIncreaseInOtherNoncurrentAssets",
+      "description": "Adjustments for decrease (increase) in other non-current assets",
+      "common_terms": [
+        "Adjustments for decrease (increase) in other non-current assets"
+      ]
+    },
+    "AdjustmentsForOtherFinancialAssetsNoncurrent": {
+      "xml_tag": "in-bse-fin:AdjustmentsForOtherFinancialAssetsNoncurrent",
+      "description": "Adjustments for other financial assets, non-current",
+      "common_terms": [
+        "Adjustments for other financial assets, non-current"
+      ]
+    },
+    "AdjustmentsForOtherFinancialAssetsCurrent": {
+      "xml_tag": "in-bse-fin:AdjustmentsForOtherFinancialAssetsCurrent",
+      "description": "Adjustments for other financial assets, current",
+      "common_terms": [
+        "Adjustments for other financial assets, current"
+      ]
+    },
+    "AdjustmentsForOtherBankBalances": {
+      "xml_tag": "in-bse-fin:AdjustmentsForOtherBankBalances",
+      "description": "Adjustments for other bank balances",
+      "common_terms": [
+        "Adjustments for other bank balances"
+      ]
+    },
+    "AdjustmentsForIncreaseDecreaseInTradePayablesCurrent": {
+      "xml_tag": "in-bse-fin:AdjustmentsForIncreaseDecreaseInTradePayablesCurrent",
+      "description": "Adjustments for increase (decrease) in trade payables, current",
+      "common_terms": [
+        "Adjustments for increase (decrease) in trade payables, current"
+      ]
+    },
+    "AdjustmentsForIncreaseDecreaseInTradePayablesNoncurrent": {
+      "xml_tag": "in-bse-fin:AdjustmentsForIncreaseDecreaseInTradePayablesNoncurrent",
+      "description": "Adjustments for increase (decrease) in trade payables, non-current",
+      "common_terms": [
+        "Adjustments for increase (decrease) in trade payables, non-current"
+      ]
+    },
+    "AdjustmentsForIncreaseDecreaseInOtherCurrentLiabilities": {
+      "xml_tag": "in-bse-fin:AdjustmentsForIncreaseDecreaseInOtherCurrentLiabilities",
+      "description": "Adjustments for increase (decrease) in other current liabilities",
+      "common_terms": [
+        "Adjustments for increase (decrease) in other current liabilities"
+      ]
+    },
+    "AdjustmentsForIncreaseDecreaseInOtherNoncurrentLiabilities": {
+      "xml_tag": "in-bse-fin:AdjustmentsForIncreaseDecreaseInOtherNoncurrentLiabilities",
+      "description": "Adjustments for increase (decrease) in other non-current liabilities",
+      "common_terms": [
+        "Adjustments for increase (decrease) in other non-current liabilities"
+      ]
+    },
+    "AdjustmentsForDepreciationAndAmortisationExpense": {
+      "xml_tag": "in-bse-fin:AdjustmentsForDepreciationAndAmortisationExpense",
+      "description": "Adjustments for depreciation and amortisation expense",
+      "common_terms": [
+        "Adjustments for depreciation and amortisation expense"
+      ]
+    },
+    "AdjustmentsForImpairmentLossReversalOfImpairmentLossRecognisedInProfitOrLoss": {
+      "xml_tag": "in-bse-fin:AdjustmentsForImpairmentLossReversalOfImpairmentLossRecognisedInProfitOrLoss",
+      "description": "Adjustments for impairment loss reversal of impairment loss recognised in profit or loss",
+      "common_terms": [
+        "Adjustments for impairment loss reversal of impairment loss recognised in profit or loss"
+      ]
+    },
+    "AdjustmentsForProvisionsCurrent": {
+      "xml_tag": "in-bse-fin:AdjustmentsForProvisionsCurrent",
+      "description": "Adjustments for provisions, current",
+      "common_terms": [
+        "Adjustments for provisions, current"
+      ]
+    },
+    "AdjustmentsForProvisionsNoncurrent": {
+      "xml_tag": "in-bse-fin:AdjustmentsForProvisionsNoncurrent",
+      "description": "Adjustments for provisions, non-current",
+      "common_terms": [
+        "Adjustments for provisions, non-current"
+      ]
+    },
+    "AdjustmentsForOtherFinancialLiabilitiesCurrent": {
+      "xml_tag": "in-bse-fin:AdjustmentsForOtherFinancialLiabilitiesCurrent",
+      "description": "Adjustments for other financial liabilities, current",
+      "common_terms": [
+        "Adjustments for other financial liabilities, current"
+      ]
+    },
+    "AdjustmentsForOtherFinancialLiabilitiesNoncurrent": {
+      "xml_tag": "in-bse-fin:AdjustmentsForOtherFinancialLiabilitiesNoncurrent",
+      "description": "Adjustments for other financial liabilities, non-current",
+      "common_terms": [
+        "Adjustments for other financial liabilities, non-current"
+      ]
+    },
+    "AdjustmentsForUnrealisedForeignExchangeLossesGains": {
+      "xml_tag": "in-bse-fin:AdjustmentsForUnrealisedForeignExchangeLossesGains",
+      "description": "Adjustments for unrealised foreign exchange losses gains",
+      "common_terms": [
+        "Adjustments for unrealised foreign exchange losses gains"
+      ]
+    },
+    "AdjustmentsForDividendIncome": {
+      "xml_tag": "in-bse-fin:AdjustmentsForDividendIncome",
+      "description": "Adjustments for dividend income",
+      "common_terms": [
+        "Adjustments for dividend income"
+      ]
+    },
+    "AdjustmentsForInterestIncome": {
+      "xml_tag": "in-bse-fin:AdjustmentsForInterestIncome",
+      "description": "Adjustments for interest income",
+      "common_terms": [
+        "Adjustments for interest income"
+      ]
+    },
+    "AdjustmentsForSharebasedPayments": {
+      "xml_tag": "in-bse-fin:AdjustmentsForSharebasedPayments",
+      "description": "Adjustments for share-based payments",
+      "common_terms": [
+        "Adjustments for share-based payments"
+      ]
+    },
+    "AdjustmentsForFairValueGainsLosses": {
+      "xml_tag": "in-bse-fin:AdjustmentsForFairValueGainsLosses",
+      "description": "Adjustments for fair value losses (gains)",
+      "common_terms": [
+        "Adjustments for fair value losses (gains)"
+      ]
+    },
+    "AdjustmentsForUndistributedProfitsOfAssociates": {
+      "xml_tag": "in-bse-fin:AdjustmentsForUndistributedProfitsOfAssociates",
+      "description": "Adjustments for undistributed profits of associates",
+      "common_terms": [
+        "Adjustments for undistributed profits of associates"
+      ]
+    },
+    "OtherAdjustmentsForWhichCashEffectsAreInvestingOrFinancingCashFlow": {
+      "xml_tag": "in-bse-fin:OtherAdjustmentsForWhichCashEffectsAreInvestingOrFinancingCashFlow",
+      "description": "Other adjustments for which cash effects are investing or financing cash flow",
+      "common_terms": [
+        "Other adjustments for which cash effects are investing or financing cash flow"
+      ]
+    },
+    "OtherAdjustmentsToReconcileProfitLoss": {
+      "xml_tag": "in-bse-fin:OtherAdjustmentsToReconcileProfitLoss",
+      "description": "Other adjustments to reconcile profit (loss)",
+      "common_terms": [
+        "Other adjustments to reconcile profit (loss)"
+      ]
+    },
+    "OtherAdjustmentsForNoncashItems": {
+      "xml_tag": "in-bse-fin:OtherAdjustmentsForNoncashItems",
+      "description": "Other adjustments for non-cash items",
+      "common_terms": [
+        "Other adjustments for non-cash items"
+      ]
+    },
+    "ShareOfProfitAndLossFromPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships": {
+      "xml_tag": "in-bse-fin:ShareOfProfitAndLossFromPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships",
+      "description": "Share of profit and loss from partnership firm or association of persons or limited liability partnerships",
+      "common_terms": [
+        "Share of profit and loss from partnership firm or association of persons or limited liability partnerships"
+      ]
+    },
+    "AdjustmentsForReconcileProfitLoss": {
+      "xml_tag": "in-bse-fin:AdjustmentsForReconcileProfitLoss",
+      "description": "Total adjustments for reconcile profit (loss)",
+      "common_terms": [
+        "Total adjustments for reconcile profit (loss)"
+      ]
+    },
+    "CashFlowsFromUsedInOperations": {
+      "xml_tag": "in-bse-fin:CashFlowsFromUsedInOperations",
+      "description": "Net cash flows from (used in) operations",
+      "common_terms": [
+        "Net cash flows from (used in) operations"
+      ]
+    },
+    "DividendsReceivedClassifiedAsOperatingActivities": {
+      "xml_tag": "in-bse-fin:DividendsReceivedClassifiedAsOperatingActivities",
+      "description": "Dividends received",
+      "common_terms": [
+        "Dividends received"
+      ]
+    },
+    "InterestPaidClassifiedAsOperatingActivities": {
+      "xml_tag": "in-bse-fin:InterestPaidClassifiedAsOperatingActivities",
+      "description": "Interest paid",
+      "common_terms": [
+        "Interest paid"
+      ]
+    },
+    "InterestReceivedClassifiedAsOperatingActivities": {
+      "xml_tag": "in-bse-fin:InterestReceivedClassifiedAsOperatingActivities",
+      "description": "Interest received",
+      "common_terms": [
+        "Interest received"
+      ]
+    },
+    "IncomeTaxesPaidRefundClassifiedAsOperatingActivities": {
+      "xml_tag": "in-bse-fin:IncomeTaxesPaidRefundClassifiedAsOperatingActivities",
+      "description": "Income taxes paid (refund)",
+      "common_terms": [
+        "Income taxes paid (refund)"
+      ]
+    },
+    "OtherInflowsOutflowsOfCashClassifiedAsOperatingActivities": {
+      "xml_tag": "in-bse-fin:OtherInflowsOutflowsOfCashClassifiedAsOperatingActivities",
+      "description": "Other inflows (outflows) of cash",
+      "common_terms": [
+        "Other inflows (outflows) of cash"
+      ]
+    },
+    "CashFlowsFromUsedInOperatingActivities": {
+      "xml_tag": "in-bse-fin:CashFlowsFromUsedInOperatingActivities",
+      "description": "Net cash flows from (used in) operating activities",
+      "common_terms": [
+        "Net cash flows from (used in) operating activities"
+      ]
+    },
+    "CashFlowsFromLosingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:CashFlowsFromLosingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities",
+      "description": "Cash flows from losing control of subsidiaries or other businesses",
+      "common_terms": [
+        "Cash flows from losing control of subsidiaries or other businesses"
+      ]
+    },
+    "CashFlowsUsedInObtainingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:CashFlowsUsedInObtainingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities",
+      "description": "Cash flows used in obtaining control of subsidiaries or other businesses",
+      "common_terms": [
+        "Cash flows used in obtaining control of subsidiaries or other businesses"
+      ]
+    },
+    "OtherCashReceiptsFromSalesOfEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:OtherCashReceiptsFromSalesOfEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities",
+      "description": "Other cash receipts from sales of equity or debt instruments of other entities",
+      "common_terms": [
+        "Other cash receipts from sales of equity or debt instruments of other entities"
+      ]
+    },
+    "OtherCashPaymentsToAcquireEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:OtherCashPaymentsToAcquireEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities",
+      "description": "Other cash payments to acquire equity or debt instruments of other entities",
+      "common_terms": [
+        "Other cash payments to acquire equity or debt instruments of other entities"
+      ]
+    },
+    "OtherCashReceiptsFromSalesOfInterestsInJointVenturesClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:OtherCashReceiptsFromSalesOfInterestsInJointVenturesClassifiedAsInvestingActivities",
+      "description": "Other cash receipts from sales of interests in joint ventures",
+      "common_terms": [
+        "Other cash receipts from sales of interests in joint ventures"
+      ]
+    },
+    "OtherCashPaymentsToAcquireInterestsInJointVenturesClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:OtherCashPaymentsToAcquireInterestsInJointVenturesClassifiedAsInvestingActivities",
+      "description": "Other cash payments to acquire interests in joint ventures",
+      "common_terms": [
+        "Other cash payments to acquire interests in joint ventures"
+      ]
+    },
+    "CashReceiptsFromShareOfProfitsOfPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships": {
+      "xml_tag": "in-bse-fin:CashReceiptsFromShareOfProfitsOfPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships",
+      "description": "Cash receipts from share of profits of partnership firm or association of persons or limited liability partnerships",
+      "common_terms": [
+        "Cash receipts from share of profits of partnership firm or association of persons or limited liability partnerships"
+      ]
+    },
+    "CashPaymentForInvestmentInPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships": {
+      "xml_tag": "in-bse-fin:CashPaymentForInvestmentInPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships",
+      "description": "Cash payment for investment in partnership firm or association of persons or limited liability partnerships",
+      "common_terms": [
+        "Cash payment for investment in partnership firm or association of persons or limited liability partnerships"
+      ]
+    },
+    "ProceedsFromSalesOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:ProceedsFromSalesOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities",
+      "description": "Proceeds from sales of property, plant and equipment",
+      "common_terms": [
+        "Proceeds from sales of property, plant and equipment"
+      ]
+    },
+    "PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities",
+      "description": "Purchase of property, plant and equipment",
+      "common_terms": [
+        "Purchase of property, plant and equipment"
+      ]
+    },
+    "ProceedsFromSalesOfInvestmentPropertyClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:ProceedsFromSalesOfInvestmentPropertyClassifiedAsInvestingActivities",
+      "description": "Proceeds from sales of investment property",
+      "common_terms": [
+        "Proceeds from sales of investment property"
+      ]
+    },
+    "PurchaseOfInvestmentPropertyClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:PurchaseOfInvestmentPropertyClassifiedAsInvestingActivities",
+      "description": "Purchase of investment property",
+      "common_terms": [
+        "Purchase of investment property"
+      ]
+    },
+    "ProceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:ProceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities",
+      "description": "Proceeds from sales of intangible assets",
+      "common_terms": [
+        "Proceeds from sales of intangible assets"
+      ]
+    },
+    "PurchaseOfIntangibleAssetsClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:PurchaseOfIntangibleAssetsClassifiedAsInvestingActivities",
+      "description": "Purchase of intangible assets",
+      "common_terms": [
+        "Purchase of intangible assets"
+      ]
+    },
+    "ProceedsFromSalesOfIntangibleAssetsUnderDevelopment": {
+      "xml_tag": "in-bse-fin:ProceedsFromSalesOfIntangibleAssetsUnderDevelopment",
+      "description": "Proceeds from sales of intangible assets under development",
+      "common_terms": [
+        "Proceeds from sales of intangible assets under development"
+      ]
+    },
+    "PurchaseOfIntangibleAssetsUnderDevelopment": {
+      "xml_tag": "in-bse-fin:PurchaseOfIntangibleAssetsUnderDevelopment",
+      "description": "Purchase of intangible assets under development",
+      "common_terms": [
+        "Purchase of intangible assets under development"
+      ]
+    },
+    "ProceedsFromSalesOfGoodwillClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:ProceedsFromSalesOfGoodwillClassifiedAsInvestingActivities",
+      "description": "Proceeds from sales of goodwill",
+      "common_terms": [
+        "Proceeds from sales of goodwill"
+      ]
+    },
+    "PurchaseOfGoodwillClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:PurchaseOfGoodwillClassifiedAsInvestingActivities",
+      "description": "Purchase of goodwill",
+      "common_terms": [
+        "Purchase of goodwill"
+      ]
+    },
+    "ProceedsFromBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:ProceedsFromBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities",
+      "description": "Proceeds from biological assets other than bearer plants",
+      "common_terms": [
+        "Proceeds from biological assets other than bearer plants"
+      ]
+    },
+    "PurchaseOfBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:PurchaseOfBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities",
+      "description": "Purchase of biological assets other than bearer plants",
+      "common_terms": [
+        "Purchase of biological assets other than bearer plants"
+      ]
+    },
+    "ProceedsFromGovernmentGrantsClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:ProceedsFromGovernmentGrantsClassifiedAsInvestingActivities",
+      "description": "Proceeds from government grants",
+      "common_terms": [
+        "Proceeds from government grants"
+      ]
+    },
+    "ProceedsFromSalesOfOtherLongTermAssetsClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:ProceedsFromSalesOfOtherLongTermAssetsClassifiedAsInvestingActivities",
+      "description": "Proceeds from sales of other long-term assets",
+      "common_terms": [
+        "Proceeds from sales of other long-term assets"
+      ]
+    },
+    "PurchaseOfOtherLongTermAssetsClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:PurchaseOfOtherLongTermAssetsClassifiedAsInvestingActivities",
+      "description": "Purchase of other long-term assets",
+      "common_terms": [
+        "Purchase of other long-term assets"
+      ]
+    },
+    "CashAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:CashAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities",
+      "description": "Cash advances and loans made to other parties",
+      "common_terms": [
+        "Cash advances and loans made to other parties"
+      ]
+    },
+    "CashReceiptsFromRepaymentOfAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:CashReceiptsFromRepaymentOfAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities",
+      "description": "Cash receipts from repayment of advances and loans made to other parties",
+      "common_terms": [
+        "Cash receipts from repayment of advances and loans made to other parties"
+      ]
+    },
+    "CashPaymentsForFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:CashPaymentsForFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities",
+      "description": "Cash payments for future contracts, forward contracts, option contracts and swap contracts",
+      "common_terms": [
+        "Cash payments for future contracts, forward contracts, option contracts and swap contracts"
+      ]
+    },
+    "CashReceiptsFromFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:CashReceiptsFromFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities",
+      "description": "Cash receipts from future contracts, forward contracts, option contracts and swap contracts",
+      "common_terms": [
+        "Cash receipts from future contracts, forward contracts, option contracts and swap contracts"
+      ]
+    },
+    "DividendsReceivedClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:DividendsReceivedClassifiedAsInvestingActivities",
+      "description": "Dividends received",
+      "common_terms": [
+        "Dividends received"
+      ]
+    },
+    "InterestReceivedClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:InterestReceivedClassifiedAsInvestingActivities",
+      "description": "Interest received",
+      "common_terms": [
+        "Interest received"
+      ]
+    },
+    "IncomeTaxesPaidRefundClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:IncomeTaxesPaidRefundClassifiedAsInvestingActivities",
+      "description": "Income taxes paid (refund)",
+      "common_terms": [
+        "Income taxes paid (refund)"
+      ]
+    },
+    "OtherInflowsOutflowsOfCashClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:OtherInflowsOutflowsOfCashClassifiedAsInvestingActivities",
+      "description": "Other inflows (outflows) of cash",
+      "common_terms": [
+        "Other inflows (outflows) of cash"
+      ]
+    },
+    "CashFlowsFromUsedInInvestingActivities": {
+      "xml_tag": "in-bse-fin:CashFlowsFromUsedInInvestingActivities",
+      "description": "Net cash flows from (used in) investing activities",
+      "common_terms": [
+        "Net cash flows from (used in) investing activities"
+      ]
+    },
+    "ProceedsFromChangesInOwnershipInterestsInSubsidiaries": {
+      "xml_tag": "in-bse-fin:ProceedsFromChangesInOwnershipInterestsInSubsidiaries",
+      "description": "Proceeds from changes in ownership interests in subsidiaries",
+      "common_terms": [
+        "Proceeds from changes in ownership interests in subsidiaries"
+      ]
+    },
+    "PaymentsFromChangesInOwnershipInterestsInSubsidiaries": {
+      "xml_tag": "in-bse-fin:PaymentsFromChangesInOwnershipInterestsInSubsidiaries",
+      "description": "Payments from changes in ownership interests in subsidiaries",
+      "common_terms": [
+        "Payments from changes in ownership interests in subsidiaries"
+      ]
+    },
+    "ProceedsFromIssuingSharesClassifiedAsFinancingActivities": {
+      "xml_tag": "in-bse-fin:ProceedsFromIssuingSharesClassifiedAsFinancingActivities",
+      "description": "Proceeds from issuing shares",
+      "common_terms": [
+        "Proceeds from issuing shares"
+      ]
+    },
+    "ProceedsFromIssuingOtherEquityInstruments": {
+      "xml_tag": "in-bse-fin:ProceedsFromIssuingOtherEquityInstruments",
+      "description": "Proceeds from issuing other equity instruments",
+      "common_terms": [
+        "Proceeds from issuing other equity instruments"
+      ]
+    },
+    "PaymentsToAcquireOrRedeemEntitysShares": {
+      "xml_tag": "in-bse-fin:PaymentsToAcquireOrRedeemEntitysShares",
+      "description": "Payments to acquire or redeem entity's shares",
+      "common_terms": [
+        "Payments to acquire or redeem entity's shares"
+      ]
+    },
+    "PaymentsOfOtherEquityInstruments": {
+      "xml_tag": "in-bse-fin:PaymentsOfOtherEquityInstruments",
+      "description": "Payments of other equity instruments",
+      "common_terms": [
+        "Payments of other equity instruments"
+      ]
+    },
+    "ProceedsFromExerciseOfStockOptions": {
+      "xml_tag": "in-bse-fin:ProceedsFromExerciseOfStockOptions",
+      "description": "Proceeds from exercise of stock options",
+      "common_terms": [
+        "Proceeds from exercise of stock options"
+      ]
+    },
+    "ProceedsFromIssuingDebenturesNotesBondsEtc": {
+      "xml_tag": "in-bse-fin:ProceedsFromIssuingDebenturesNotesBondsEtc",
+      "description": "Proceeds from issuing debentures notes bonds etc",
+      "common_terms": [
+        "Proceeds from issuing debentures notes bonds etc"
+      ]
+    },
+    "ProceedsFromBorrowingsClassifiedAsFinancingActivities": {
+      "xml_tag": "in-bse-fin:ProceedsFromBorrowingsClassifiedAsFinancingActivities",
+      "description": "Proceeds from borrowings",
+      "common_terms": [
+        "Proceeds from borrowings"
+      ]
+    },
+    "RepaymentsOfBorrowingsClassifiedAsFinancingActivities": {
+      "xml_tag": "in-bse-fin:RepaymentsOfBorrowingsClassifiedAsFinancingActivities",
+      "description": "Repayments of borrowings",
+      "common_terms": [
+        "Repayments of borrowings"
+      ]
+    },
+    "PaymentsOfLeaseLiabilitiesClassifiedAsFinancingActivities": {
+      "xml_tag": "in-bse-fin:PaymentsOfLeaseLiabilitiesClassifiedAsFinancingActivities",
+      "description": "Payments of lease liabilities",
+      "common_terms": [
+        "Payments of lease liabilities"
+      ]
+    },
+    "DividendsPaidClassifiedAsFinancingActivities": {
+      "xml_tag": "in-bse-fin:DividendsPaidClassifiedAsFinancingActivities",
+      "description": "Dividends paid",
+      "common_terms": [
+        "Dividends paid"
+      ]
+    },
+    "InterestPaidClassifiedAsFinancingActivities": {
+      "xml_tag": "in-bse-fin:InterestPaidClassifiedAsFinancingActivities",
+      "description": "Interest paid",
+      "common_terms": [
+        "Interest paid"
+      ]
+    },
+    "IncomeTaxesPaidRefundClassifiedAsFinancingActivities": {
+      "xml_tag": "in-bse-fin:IncomeTaxesPaidRefundClassifiedAsFinancingActivities",
+      "description": "Income taxes paid (refund)",
+      "common_terms": [
+        "Income taxes paid (refund)"
+      ]
+    },
+    "OtherInflowsOutflowsOfCashClassifiedAsFinancingActivities": {
+      "xml_tag": "in-bse-fin:OtherInflowsOutflowsOfCashClassifiedAsFinancingActivities",
+      "description": "Other inflows (outflows) of cash",
+      "common_terms": [
+        "Other inflows (outflows) of cash"
+      ]
+    },
+    "CashFlowsFromUsedInFinancingActivities": {
+      "xml_tag": "in-bse-fin:CashFlowsFromUsedInFinancingActivities",
+      "description": "Net cash flows from (used in) financing activities",
+      "common_terms": [
+        "Net cash flows from (used in) financing activities"
+      ]
+    },
+    "IncreaseDecreaseInCashAndCashEquivalentsBeforeEffectOfExchangeRateChanges": {
+      "xml_tag": "in-bse-fin:IncreaseDecreaseInCashAndCashEquivalentsBeforeEffectOfExchangeRateChanges",
+      "description": "Net increase (decrease) in cash and cash equivalents before effect of exchange rate changes",
+      "common_terms": [
+        "Net increase (decrease) in cash and cash equivalents before effect of exchange rate changes"
+      ]
+    },
+    "EffectOfExchangeRateChangesOnCashAndCashEquivalents": {
+      "xml_tag": "in-bse-fin:EffectOfExchangeRateChangesOnCashAndCashEquivalents",
+      "description": "Effect of exchange rate changes on cash and cash equivalents",
+      "common_terms": [
+        "Effect of exchange rate changes on cash and cash equivalents"
+      ]
+    },
+    "IncreaseDecreaseInCashAndCashEquivalents": {
+      "xml_tag": "in-bse-fin:IncreaseDecreaseInCashAndCashEquivalents",
+      "description": "Net increase (decrease) in cash and cash equivalents",
+      "common_terms": [
+        "Net increase (decrease) in cash and cash equivalents"
+      ]
+    },
+    "CashAndCashEquivalentsCashFlowStatement": {
+      "xml_tag": "in-bse-fin:CashAndCashEquivalentsCashFlowStatement",
+      "description": "Cash and cash equivalents cash flow statement at beginning of period",
+      "common_terms": [
+        "Cash and cash equivalents cash flow statement at beginning of period"
+      ]
+    }
+  },
+  "CashFlowStatementDirect": {
+    "ReceiptsFromSalesOfGoodsAndRenderingOfServices": {
+      "xml_tag": "in-bse-fin:ReceiptsFromSalesOfGoodsAndRenderingOfServices",
+      "description": "Receipts from sales of goods and rendering of services",
+      "common_terms": [
+        "Receipts from sales of goods and rendering of services"
+      ]
+    },
+    "ReceiptsFromRoyaltiesFeesCommissionsAndOtherRevenue": {
+      "xml_tag": "in-bse-fin:ReceiptsFromRoyaltiesFeesCommissionsAndOtherRevenue",
+      "description": "Receipts from royalties fees, commissions and other revenue",
+      "common_terms": [
+        "Receipts from royalties fees, commissions and other revenue"
+      ]
+    },
+    "ReceiptsFromContractsHeldForDealingOrTradingPurpose": {
+      "xml_tag": "in-bse-fin:ReceiptsFromContractsHeldForDealingOrTradingPurpose",
+      "description": "Receipts from contracts held for dealing or trading purpose",
+      "common_terms": [
+        "Receipts from contracts held for dealing or trading purpose"
+      ]
+    },
+    "ReceiptsFromPremiumsAndClaimsAnnuitiesAndOtherPolicyBenefits": {
+      "xml_tag": "in-bse-fin:ReceiptsFromPremiumsAndClaimsAnnuitiesAndOtherPolicyBenefits",
+      "description": "Receipts from premiums and claims annuities and other policy benefits",
+      "common_terms": [
+        "Receipts from premiums and claims annuities and other policy benefits"
+      ]
+    },
+    "ReceiptsFromRentsAndSubsequentSalesOfAssetsHeldForRentalToOthersAndSubsequentlyHeldForSale": {
+      "xml_tag": "in-bse-fin:ReceiptsFromRentsAndSubsequentSalesOfAssetsHeldForRentalToOthersAndSubsequentlyHeldForSale",
+      "description": "Receipts from rents and subsequent sales of assets held for rental to others and subsequently held for sale",
+      "common_terms": [
+        "Receipts from rents and subsequent sales of assets held for rental to others and subsequently held for sale"
+      ]
+    },
+    "OtherCashReceiptsFromOperatingActivities": {
+      "xml_tag": "in-bse-fin:OtherCashReceiptsFromOperatingActivities",
+      "description": "Other cash receipts from operating activities",
+      "common_terms": [
+        "Other cash receipts from operating activities"
+      ]
+    },
+    "PaymentsToSuppliersForGoodsAndServices": {
+      "xml_tag": "in-bse-fin:PaymentsToSuppliersForGoodsAndServices",
+      "description": "Payments to suppliers for goods and services",
+      "common_terms": [
+        "Payments to suppliers for goods and services"
+      ]
+    },
+    "PaymentsFromContractsHeldForDealingOrTradingPurpose": {
+      "xml_tag": "in-bse-fin:PaymentsFromContractsHeldForDealingOrTradingPurpose",
+      "description": "Payments from contracts held for dealing or trading purpose",
+      "common_terms": [
+        "Payments from contracts held for dealing or trading purpose"
+      ]
+    },
+    "PaymentsToAndOnBehalfOfEmployees": {
+      "xml_tag": "in-bse-fin:PaymentsToAndOnBehalfOfEmployees",
+      "description": "Payments to and on behalf of employees",
+      "common_terms": [
+        "Payments to and on behalf of employees"
+      ]
+    },
+    "PaymentsForPremiumsAndClaimsAnnuitiesAndOtherPolicyBenefits": {
+      "xml_tag": "in-bse-fin:PaymentsForPremiumsAndClaimsAnnuitiesAndOtherPolicyBenefits",
+      "description": "Payments for premiums and claims, annuities and other policy benefits",
+      "common_terms": [
+        "Payments for premiums and claims, annuities and other policy benefits"
+      ]
+    },
+    "PaymentsToManufactureOrAcquireAssetsHeldForRentalToOthersAndSubsequentlyHeldForSale": {
+      "xml_tag": "in-bse-fin:PaymentsToManufactureOrAcquireAssetsHeldForRentalToOthersAndSubsequentlyHeldForSale",
+      "description": "Payments to manufacture or acquire assets held for rental to others and subsequently held for sale",
+      "common_terms": [
+        "Payments to manufacture or acquire assets held for rental to others and subsequently held for sale"
+      ]
+    },
+    "OtherCashPaymentsFromOperatingActivities": {
+      "xml_tag": "in-bse-fin:OtherCashPaymentsFromOperatingActivities",
+      "description": "Other cash payments from operating activities",
+      "common_terms": [
+        "Other cash payments from operating activities"
+      ]
+    },
+    "CashFlowsFromUsedInOperations": {
+      "xml_tag": "in-bse-fin:CashFlowsFromUsedInOperations",
+      "description": "Net cash flows from (used in) operations",
+      "common_terms": [
+        "Net cash flows from (used in) operations"
+      ]
+    },
+    "DividendsReceivedClassifiedAsOperatingActivities": {
+      "xml_tag": "in-bse-fin:DividendsReceivedClassifiedAsOperatingActivities",
+      "description": "Dividends received",
+      "common_terms": [
+        "Dividends received"
+      ]
+    },
+    "InterestPaidClassifiedAsOperatingActivities": {
+      "xml_tag": "in-bse-fin:InterestPaidClassifiedAsOperatingActivities",
+      "description": "Interest paid",
+      "common_terms": [
+        "Interest paid"
+      ]
+    },
+    "InterestReceivedClassifiedAsOperatingActivities": {
+      "xml_tag": "in-bse-fin:InterestReceivedClassifiedAsOperatingActivities",
+      "description": "Interest received",
+      "common_terms": [
+        "Interest received"
+      ]
+    },
+    "IncomeTaxesPaidRefundClassifiedAsOperatingActivities": {
+      "xml_tag": "in-bse-fin:IncomeTaxesPaidRefundClassifiedAsOperatingActivities",
+      "description": "Income taxes paid (refund)",
+      "common_terms": [
+        "Income taxes paid (refund)"
+      ]
+    },
+    "OtherInflowsOutflowsOfCashClassifiedAsOperatingActivities": {
+      "xml_tag": "in-bse-fin:OtherInflowsOutflowsOfCashClassifiedAsOperatingActivities",
+      "description": "Other inflows (outflows) of cash",
+      "common_terms": [
+        "Other inflows (outflows) of cash"
+      ]
+    },
+    "CashFlowsFromUsedInOperatingActivities": {
+      "xml_tag": "in-bse-fin:CashFlowsFromUsedInOperatingActivities",
+      "description": "Net cash flows from (used in) operating activities",
+      "common_terms": [
+        "Net cash flows from (used in) operating activities"
+      ]
+    },
+    "CashFlowsFromLosingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:CashFlowsFromLosingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities",
+      "description": "Cash flows from losing control of subsidiaries or other businesses",
+      "common_terms": [
+        "Cash flows from losing control of subsidiaries or other businesses"
+      ]
+    },
+    "CashFlowsUsedInObtainingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:CashFlowsUsedInObtainingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities",
+      "description": "Cash flows used in obtaining control of subsidiaries or other businesses",
+      "common_terms": [
+        "Cash flows used in obtaining control of subsidiaries or other businesses"
+      ]
+    },
+    "OtherCashReceiptsFromSalesOfEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:OtherCashReceiptsFromSalesOfEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities",
+      "description": "Other cash receipts from sales of equity or debt instruments of other entities",
+      "common_terms": [
+        "Other cash receipts from sales of equity or debt instruments of other entities"
+      ]
+    },
+    "OtherCashPaymentsToAcquireEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:OtherCashPaymentsToAcquireEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities",
+      "description": "Other cash payments to acquire equity or debt instruments of other entities",
+      "common_terms": [
+        "Other cash payments to acquire equity or debt instruments of other entities"
+      ]
+    },
+    "OtherCashReceiptsFromSalesOfInterestsInJointVenturesClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:OtherCashReceiptsFromSalesOfInterestsInJointVenturesClassifiedAsInvestingActivities",
+      "description": "Other cash receipts from sales of interests in joint ventures",
+      "common_terms": [
+        "Other cash receipts from sales of interests in joint ventures"
+      ]
+    },
+    "OtherCashPaymentsToAcquireInterestsInJointVenturesClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:OtherCashPaymentsToAcquireInterestsInJointVenturesClassifiedAsInvestingActivities",
+      "description": "Other cash payments to acquire interests in joint ventures",
+      "common_terms": [
+        "Other cash payments to acquire interests in joint ventures"
+      ]
+    },
+    "ProceedsFromSalesOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:ProceedsFromSalesOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities",
+      "description": "Proceeds from sales of property, plant and equipment",
+      "common_terms": [
+        "Proceeds from sales of property, plant and equipment"
+      ]
+    },
+    "PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities",
+      "description": "Purchase of property, plant and equipment",
+      "common_terms": [
+        "Purchase of property, plant and equipment"
+      ]
+    },
+    "ProceedsFromSalesOfInvestmentPropertyClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:ProceedsFromSalesOfInvestmentPropertyClassifiedAsInvestingActivities",
+      "description": "Proceeds from sales of investment property",
+      "common_terms": [
+        "Proceeds from sales of investment property"
+      ]
+    },
+    "PurchaseOfInvestmentPropertyClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:PurchaseOfInvestmentPropertyClassifiedAsInvestingActivities",
+      "description": "Purchase of investment property",
+      "common_terms": [
+        "Purchase of investment property"
+      ]
+    },
+    "ProceedsFromSalesOfGoodwillClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:ProceedsFromSalesOfGoodwillClassifiedAsInvestingActivities",
+      "description": "Proceeds from sales of goodwill",
+      "common_terms": [
+        "Proceeds from sales of goodwill"
+      ]
+    },
+    "PurchaseOfGoodwillClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:PurchaseOfGoodwillClassifiedAsInvestingActivities",
+      "description": "Purchase of goodwill",
+      "common_terms": [
+        "Purchase of goodwill"
+      ]
+    },
+    "ProceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:ProceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities",
+      "description": "Proceeds from sales of intangible assets",
+      "common_terms": [
+        "Proceeds from sales of intangible assets"
+      ]
+    },
+    "PurchaseOfIntangibleAssetsClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:PurchaseOfIntangibleAssetsClassifiedAsInvestingActivities",
+      "description": "Purchase of intangible assets",
+      "common_terms": [
+        "Purchase of intangible assets"
+      ]
+    },
+    "ProceedsFromBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:ProceedsFromBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities",
+      "description": "Proceeds from biological assets other than bearer plants",
+      "common_terms": [
+        "Proceeds from biological assets other than bearer plants"
+      ]
+    },
+    "PurchaseOfBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:PurchaseOfBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities",
+      "description": "Purchase of biological assets other than bearer plants",
+      "common_terms": [
+        "Purchase of biological assets other than bearer plants"
+      ]
+    },
+    "ProceedsFromSalesOfOtherLongTermAssetsClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:ProceedsFromSalesOfOtherLongTermAssetsClassifiedAsInvestingActivities",
+      "description": "Proceeds from sales of other long-term assets",
+      "common_terms": [
+        "Proceeds from sales of other long-term assets"
+      ]
+    },
+    "PurchaseOfOtherLongTermAssetsClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:PurchaseOfOtherLongTermAssetsClassifiedAsInvestingActivities",
+      "description": "Purchase of other long-term assets",
+      "common_terms": [
+        "Purchase of other long-term assets"
+      ]
+    },
+    "CashAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:CashAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities",
+      "description": "Cash advances and loans made to other parties",
+      "common_terms": [
+        "Cash advances and loans made to other parties"
+      ]
+    },
+    "CashReceiptsFromRepaymentOfAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:CashReceiptsFromRepaymentOfAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities",
+      "description": "Cash receipts from repayment of advances and loans made to other parties",
+      "common_terms": [
+        "Cash receipts from repayment of advances and loans made to other parties"
+      ]
+    },
+    "CashPaymentsForFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:CashPaymentsForFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities",
+      "description": "Cash payments for future contracts, forward contracts, option contracts and swap contracts",
+      "common_terms": [
+        "Cash payments for future contracts, forward contracts, option contracts and swap contracts"
+      ]
+    },
+    "CashReceiptsFromFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:CashReceiptsFromFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities",
+      "description": "Cash receipts from future contracts, forward contracts, option contracts and swap contracts",
+      "common_terms": [
+        "Cash receipts from future contracts, forward contracts, option contracts and swap contracts"
+      ]
+    },
+    "DividendsReceivedClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:DividendsReceivedClassifiedAsInvestingActivities",
+      "description": "Dividends received",
+      "common_terms": [
+        "Dividends received"
+      ]
+    },
+    "InterestReceivedClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:InterestReceivedClassifiedAsInvestingActivities",
+      "description": "Interest received",
+      "common_terms": [
+        "Interest received"
+      ]
+    },
+    "IncomeTaxesPaidRefundClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:IncomeTaxesPaidRefundClassifiedAsInvestingActivities",
+      "description": "Income taxes paid (refund)",
+      "common_terms": [
+        "Income taxes paid (refund)"
+      ]
+    },
+    "OtherInflowsOutflowsOfCashClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:OtherInflowsOutflowsOfCashClassifiedAsInvestingActivities",
+      "description": "Other inflows (outflows) of cash",
+      "common_terms": [
+        "Other inflows (outflows) of cash"
+      ]
+    },
+    "ProceedsFromGovernmentGrantsClassifiedAsInvestingActivities": {
+      "xml_tag": "in-bse-fin:ProceedsFromGovernmentGrantsClassifiedAsInvestingActivities",
+      "description": "Proceeds from government grants",
+      "common_terms": [
+        "Proceeds from government grants"
+      ]
+    },
+    "CashFlowsFromUsedInInvestingActivities": {
+      "xml_tag": "in-bse-fin:CashFlowsFromUsedInInvestingActivities",
+      "description": "Net cash flows from (used in) investing activities",
+      "common_terms": [
+        "Net cash flows from (used in) investing activities"
+      ]
+    },
+    "ProceedsFromChangesInOwnershipInterestsInSubsidiariesThatDoNotResultInLossOfControl": {
+      "xml_tag": "in-bse-fin:ProceedsFromChangesInOwnershipInterestsInSubsidiariesThatDoNotResultInLossOfControl",
+      "description": "Proceeds from changes in ownership interests in subsidiaries that do not result in loss of control",
+      "common_terms": [
+        "Proceeds from changes in ownership interests in subsidiaries that do not result in loss of control"
+      ]
+    },
+    "PaymentsFromChangesInOwnershipInterestsInSubsidiariesThatDoNotResultInLossOfControl": {
+      "xml_tag": "in-bse-fin:PaymentsFromChangesInOwnershipInterestsInSubsidiariesThatDoNotResultInLossOfControl",
+      "description": "Payments from changes in ownership interests in subsidiaries that do not result in loss of control",
+      "common_terms": [
+        "Payments from changes in ownership interests in subsidiaries that do not result in loss of control"
+      ]
+    },
+    "ProceedsFromIssuingSharesClassifiedAsFinancingActivities": {
+      "xml_tag": "in-bse-fin:ProceedsFromIssuingSharesClassifiedAsFinancingActivities",
+      "description": "Proceeds from issuing shares",
+      "common_terms": [
+        "Proceeds from issuing shares"
+      ]
+    },
+    "ProceedsFromIssuingOtherEquityInstruments": {
+      "xml_tag": "in-bse-fin:ProceedsFromIssuingOtherEquityInstruments",
+      "description": "Proceeds from issuing other equity instruments",
+      "common_terms": [
+        "Proceeds from issuing other equity instruments"
+      ]
+    },
+    "PaymentsToAcquireOrRedeemEntitysShares": {
+      "xml_tag": "in-bse-fin:PaymentsToAcquireOrRedeemEntitysShares",
+      "description": "Payments to acquire or redeem entity's shares",
+      "common_terms": [
+        "Payments to acquire or redeem entity's shares"
+      ]
+    },
+    "PaymentsOfOtherEquityInstruments": {
+      "xml_tag": "in-bse-fin:PaymentsOfOtherEquityInstruments",
+      "description": "Payments of other equity instruments",
+      "common_terms": [
+        "Payments of other equity instruments"
+      ]
+    },
+    "ProceedsFromExerciseOfStockOptions": {
+      "xml_tag": "in-bse-fin:ProceedsFromExerciseOfStockOptions",
+      "description": "Proceeds from exercise of stock options",
+      "common_terms": [
+        "Proceeds from exercise of stock options"
+      ]
+    },
+    "ProceedsFromIssuingDebenturesNotesBondsEtc": {
+      "xml_tag": "in-bse-fin:ProceedsFromIssuingDebenturesNotesBondsEtc",
+      "description": "Proceeds from issuing debentures notes bonds etc",
+      "common_terms": [
+        "Proceeds from issuing debentures notes bonds etc"
+      ]
+    },
+    "ProceedsFromBorrowingsClassifiedAsFinancingActivities": {
+      "xml_tag": "in-bse-fin:ProceedsFromBorrowingsClassifiedAsFinancingActivities",
+      "description": "Proceeds from borrowings",
+      "common_terms": [
+        "Proceeds from borrowings"
+      ]
+    },
+    "RepaymentsOfBorrowingsClassifiedAsFinancingActivities": {
+      "xml_tag": "in-bse-fin:RepaymentsOfBorrowingsClassifiedAsFinancingActivities",
+      "description": "Repayments of borrowings",
+      "common_terms": [
+        "Repayments of borrowings"
+      ]
+    },
+    "PaymentsOfLeaseLiabilitiesClassifiedAsFinancingActivities": {
+      "xml_tag": "in-bse-fin:PaymentsOfLeaseLiabilitiesClassifiedAsFinancingActivities",
+      "description": "Payments of lease liabilities",
+      "common_terms": [
+        "Payments of lease liabilities"
+      ]
+    },
+    "DividendsPaidClassifiedAsFinancingActivities": {
+      "xml_tag": "in-bse-fin:DividendsPaidClassifiedAsFinancingActivities",
+      "description": "Dividends paid",
+      "common_terms": [
+        "Dividends paid"
+      ]
+    },
+    "InterestPaidClassifiedAsFinancingActivities": {
+      "xml_tag": "in-bse-fin:InterestPaidClassifiedAsFinancingActivities",
+      "description": "Interest paid",
+      "common_terms": [
+        "Interest paid"
+      ]
+    },
+    "IncomeTaxesPaidRefundClassifiedAsFinancingActivities": {
+      "xml_tag": "in-bse-fin:IncomeTaxesPaidRefundClassifiedAsFinancingActivities",
+      "description": "Income taxes paid (refund)",
+      "common_terms": [
+        "Income taxes paid (refund)"
+      ]
+    },
+    "OtherInflowsOutflowsOfCashClassifiedAsFinancingActivities": {
+      "xml_tag": "in-bse-fin:OtherInflowsOutflowsOfCashClassifiedAsFinancingActivities",
+      "description": "Other inflows (outflows) of cash",
+      "common_terms": [
+        "Other inflows (outflows) of cash"
+      ]
+    },
+    "CashFlowsFromUsedInFinancingActivities": {
+      "xml_tag": "in-bse-fin:CashFlowsFromUsedInFinancingActivities",
+      "description": "Net cash flows from (used in) financing activities",
+      "common_terms": [
+        "Net cash flows from (used in) financing activities"
+      ]
+    },
+    "IncreaseDecreaseInCashAndCashEquivalentsBeforeEffectOfExchangeRateChanges": {
+      "xml_tag": "in-bse-fin:IncreaseDecreaseInCashAndCashEquivalentsBeforeEffectOfExchangeRateChanges",
+      "description": "Net increase (decrease) in cash and cash equivalents before effect of exchange rate changes",
+      "common_terms": [
+        "Net increase (decrease) in cash and cash equivalents before effect of exchange rate changes"
+      ]
+    },
+    "EffectOfExchangeRateChangesOnCashAndCashEquivalents": {
+      "xml_tag": "in-bse-fin:EffectOfExchangeRateChangesOnCashAndCashEquivalents",
+      "description": "Effect of exchange rate changes on cash and cash equivalents",
+      "common_terms": [
+        "Effect of exchange rate changes on cash and cash equivalents"
+      ]
+    },
+    "IncreaseDecreaseInCashAndCashEquivalents": {
+      "xml_tag": "in-bse-fin:IncreaseDecreaseInCashAndCashEquivalents",
+      "description": "Net increase (decrease) in cash and cash equivalents",
+      "common_terms": [
+        "Net increase (decrease) in cash and cash equivalents"
+      ]
+    },
+    "CashAndCashEquivalentsCashFlowStatement": {
+      "xml_tag": "in-bse-fin:CashAndCashEquivalentsCashFlowStatement",
+      "description": "Cash and cash equivalents cash flow statement at beginning of period",
+      "common_terms": [
+        "Cash and cash equivalents cash flow statement at beginning of period"
+      ]
+    }
+  }
+}
