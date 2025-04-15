@@ -1,47 +1,50 @@
+import asyncio
 import io
-from dotenv import load_dotenv
-import re
+import json
+import logging
+import os
+import time
+from io import BytesIO
+from typing import List
 
-from fastapi import FastAPI, Form, File, UploadFile, HTTPException, Request
-from fastapi.responses import JSONResponse, StreamingResponse, HTMLResponse
+import aiohttp
+import httpx
+import pandas as pd
+import uvicorn
+from dotenv import load_dotenv
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import StreamingResponse, HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-
-import os
-import json
-import traceback
-import time
-import asyncio
-import httpx
-import logging
-from typing import List
-import uvicorn
-import aiohttp
-
 from openai import AsyncAzureOpenAI
-    
 from llama_index.core.schema import TextNode
 from llama_parse import LlamaParse
-
 from azure.storage.blob import BlobServiceClient
 
-# # for entity extraction
-# from src.entity_extraction.entity_extraction_utils import process_pdf_for_ner, entities_to_dict
 
-# # for qa summarizer
-# from src.qa_summarizer.qa_topic_summarizer import TranscriptProcessor
-# from src.qa_summarizer.redis_manager import RedisTranscriptReader
-
-from extract_results import run_extractions_async, extract_information_async, create_financial_data_object
-from pydantic_model import FinancialData, StandaloneProfitAndLoss, ConsolidatedProfitAndLoss, StandaloneSegmentInformation, ConsolidatedSegmentInformation
-from utils import get_periods_to_extract, extract_financial_information
-
+from pydantic_model import FinancialData
+from utils import get_periods_to_extract, extract_financial_information, create_bm25_index_from_table_metadata, create_faiss_index_from_pages, extract_table_from_content, table_to_markdown
 from models.page_metadata import PageSummary, TableMetadata
-from validate_financial_statements import validate_financial_data, format_validation_results
-from utils import create_bm25_index_from_table_metadata, create_faiss_index_from_pages
-from utils import extract_table_from_content, table_to_markdown
-app = FastAPI(title = "Results RAG")
+# from validate_financial_statements import validate_financial_data, format_validation_results
+
+
+docs_uuid = "2ff08be1-6c70-480d-a630-45c3bad77fcc"
+docs_url = f"/docs-{docs_uuid}"
+app = FastAPI(title = "Results RAG", docs_url=docs_url)
+
+load_dotenv()
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
+# logging.getLogger("httpx").setLevel(logging.WARNING)
+
+# Add these lines after the basic logging configuration
+logging.getLogger("azure.core.pipeline.policies.http_logging_policy").setLevel(logging.WARNING)
+logging.getLogger("azure").setLevel(logging.WARNING)
+
+
+logger.info(f"Docs URL: {docs_url}")
 
 # Step 1: Define the function first
 def is_numeric(value):
@@ -65,15 +68,6 @@ templates.env.filters["is_numeric"] = is_numeric
 # Step 4: Mount static files directory
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-load_dotenv()
-
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
-# logging.getLogger("httpx").setLevel(logging.WARNING)
-
-# Add these lines after the basic logging configuration
-logging.getLogger("azure.core.pipeline.policies.http_logging_policy").setLevel(logging.WARNING)
-logging.getLogger("azure").setLevel(logging.WARNING)
 
 # Enable CORS
 app.add_middleware(
@@ -1048,6 +1042,121 @@ async def validate_financial_statements_endpoint(
 ):
     # need to add proper code here
     pass
+
+
+@app.get("/download-tables-excel")
+async def download_tables_excel(
+    company_name: str,
+    quarter: str,
+    document_type: str,
+    page_number: int
+):
+    """
+    Download tables from a specific page of a document as an Excel file.
+    
+    Args:
+        company_name: Company symbol/name
+        quarter: Quarter period (e.g., Q1FY24)
+        document_type: Type of document (FinancialResult or InvestorPresentation)
+        page_number: The page number to extract tables from
+        
+    Returns:
+        Excel file containing tables from the specified page
+    """
+    try:
+        # Set the correct output folder
+        output_folder = "investor_ppt" if document_type == "InvestorPresentation" else "financial_result"
+        
+        # Define the blob path
+        blob_path = f"{company_name}/outputs/quarters/{quarter}/{output_folder}/summary.jsonl"
+        
+        # Get the blob client
+        blob_client = container_client_mvp.get_blob_client(blob_path)
+        
+        # Check if the blob exists
+        if not blob_client.exists():
+            # Try to extract the document first
+            await extract_document(company_name, quarter, document_type, regenerate=False)
+            
+            # Check again if the blob exists after extraction
+            if not blob_client.exists():
+                raise HTTPException(
+                    status_code=404,
+                    detail=f"Document not found for {company_name} {quarter} {document_type}"
+                )
+        
+        # Download and parse the data
+        summary_data = blob_client.download_blob().readall().decode("utf-8")
+        pages = json.loads(summary_data)
+        
+        # Find the specific page
+        target_page = None
+        for page in pages:
+            if page.get("page_number") == page_number:
+                target_page = page
+                break
+        
+        if not target_page:
+            raise HTTPException(
+                status_code=404,
+                detail=f"Page {page_number} not found in the document"
+            )
+        
+        # Get tables from the page
+        tables = target_page.get("tables", [])
+        
+        # Extract table content from the page
+        table_content = extract_table_from_content(target_page.get("original_content", ""))
+        
+        # Create Excel file in memory
+        output = BytesIO()
+        
+        # Create ExcelWriter object
+        with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+            # If there are tables
+            if tables:
+                for i, table in enumerate(tables):
+                    # Get table caption
+                    table_caption = table.get("table_caption", f"Table {i+1}")
+                    
+                    # Get table data (use extracted table_content if available for first table)
+                    data = table_content if table_content and i == 0 else [[]]
+                    
+                    # Convert to DataFrame (handle empty tables)
+                    if data and len(data) > 0 and len(data[0]) > 0:
+                        # Use first row as header if possible
+                        headers = data[0]
+                        df = pd.DataFrame(data[1:], columns=headers)
+                    else:
+                        # Create empty DataFrame with just the table caption
+                        df = pd.DataFrame({"Table Caption": [table_caption]})
+                    
+                    # Write DataFrame to Excel sheet
+                    sheet_name = f"Table {i+1}"
+                    df.to_excel(writer, sheet_name=sheet_name, index=False)
+            else:
+                # Create a sheet with a message if no tables found
+                pd.DataFrame({"Message": ["No tables found on this page"]}).to_excel(
+                    writer, sheet_name="Info", index=False
+                )
+        
+        # Set pointer at the beginning of the stream
+        output.seek(0)
+        
+        # Set filename
+        filename = f"{company_name}_{quarter}_{document_type}_page{page_number}_tables.xlsx"
+        
+        # Return Excel file
+        return StreamingResponse(
+            output, 
+            media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={"Content-Disposition": f"attachment; filename={filename}"}
+        )
+        
+    except Exception as e:
+        logger.error(f"Error downloading tables as Excel: {str(e)}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 # Usage example
 if __name__ == "__main__":
