@@ -821,7 +821,7 @@ async def review_financial_statements(
         
         # Render the template with all financial data periods
         return templates.TemplateResponse(
-            "edit_financial_statements.html",
+            "review_financial_statements.html",
             {
                 "request": request,
                 "doc_id": doc_id,
