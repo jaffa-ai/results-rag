@@ -5,14 +5,14 @@ import logging
 import os
 import time
 from io import BytesIO
-from typing import List
+from typing import List, Optional
 
 import aiohttp
 import httpx
 import pandas as pd
 import uvicorn
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, Form
 from fastapi.responses import StreamingResponse, HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
@@ -26,7 +26,7 @@ from azure.storage.blob import BlobServiceClient
 from pydantic_model import FinancialData
 from utils import get_periods_to_extract, extract_financial_information, create_bm25_index_from_table_metadata, create_faiss_index_from_pages, extract_table_from_content, table_to_markdown
 from models.page_metadata import PageSummary, TableMetadata
-# from validate_financial_statements import validate_financial_data, format_validation_results
+from validate_financial_statements import validate_financial_data, format_validation_results
 
 
 docs_uuid = "2ff08be1-6c70-480d-a630-45c3bad77fcc"
@@ -392,7 +392,7 @@ async def review_tables(
         logger.error(f"Error in review tables: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/update-table/{doc_id}/{table_id}")
+@app.post("/update-table/{doc_id}/{table_id}", include_in_schema=False)
 async def update_table(
     doc_id: str,
     table_id: str,
@@ -476,6 +476,10 @@ async def update_table(
         
         # Get the existing table
         existing_table = target_page["tables"][table_index]
+        
+        # Update page summary if provided
+        if "page_summary" in updated_table:
+            target_page["page_summary"] = updated_table.get("page_summary")
         
         # Update table metadata
         existing_table["table_caption"] = updated_table.get("table_caption", existing_table.get("table_caption", ""))
@@ -642,6 +646,20 @@ async def extract_financial_statements_endpoint(
     regenerate: bool = False,
     statement_types: str = None
 ):
+    """
+    Extract financial statements from parsed document.
+    
+    Args:
+        company_name: Company symbol/name
+        quarter: Quarter period (e.g., Q1FY24)
+        regenerate: Whether to regenerate the output even if it already exists
+        statement_types: Comma-separated list of statement types to extract. Options include:
+                       'standalone_pl', 'consolidated_pl', 'standalone_segment', 'consolidated_segment'
+                       If None, will extract all available statements.
+    
+    Returns:
+        Dict containing the extracted financial data
+    """
     try:
         # Define paths
         input_blob_path = f"{company_name}/outputs/quarters/{quarter}/financial_result/summary.jsonl"
@@ -715,23 +733,18 @@ async def extract_financial_statements_endpoint(
         # Combine all extracted data
         financial_data = FinancialData(root=extracted_data)
 
-        # # Run the validations
-        # validation_results = validate_financial_data(financial_data)
-
-        # # Print the results in a readable format
-        # logger.info(format_validation_results(validation_results))
         
         # Save to blob storage and return
         container_client_mvp.upload_blob(
             output_blob_path,
-            json.dumps(financial_data.model_dump(), indent=2),
+            json.dumps(financial_data.model_dump(by_alias=True), indent=2),
             overwrite=True
         )
         
         return {
             "company_name": company_name,
             "quarter": quarter,
-            "financial_data": financial_data.model_dump()
+            "financial_data": financial_data.model_dump(by_alias=True)
         }
         
     except Exception as e:
@@ -740,8 +753,8 @@ async def extract_financial_statements_endpoint(
 
 
             
-@app.get("/edit-financial-statements/{doc_id}", response_class=HTMLResponse)
-async def edit_financial_statements(
+@app.get("/review-financial-statements/{doc_id}", response_class=HTMLResponse)
+async def review_financial_statements(
     request: Request,
     doc_id: str,
     regenerate: bool = False
@@ -808,7 +821,7 @@ async def edit_financial_statements(
         
         # Render the template with all financial data periods
         return templates.TemplateResponse(
-            "edit_financial_statements.html",
+            "review_financial_statements.html",
             {
                 "request": request,
                 "doc_id": doc_id,
@@ -823,7 +836,7 @@ async def edit_financial_statements(
         logger.error(f"Error in edit financial statements: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/update-financial-statement/{doc_id}/{statement_type}")
+@app.post("/update-financial-statement/{doc_id}/{statement_type}", include_in_schema=False)
 async def update_financial_statement(
     doc_id: str,
     statement_type: str,
@@ -947,6 +960,21 @@ async def update_financial_statement(
             overwrite=True
         )
         
+        # Try to validate the updated data to make sure it's consistent
+        try:
+            # Convert to FinancialData model
+            financial_data_model = FinancialData(root=financial_data)
+            
+            # Save with consistent field names
+            container_client_mvp.upload_blob(
+                blob_path,
+                json.dumps(financial_data_model.model_dump(by_alias=True), indent=2),
+                overwrite=True
+            )
+        except Exception as e:
+            # Log but don't fail the update - original data was saved already
+            logger.warning(f"Could not standardize field names after update: {str(e)}")
+        
         return {
             "status": "success",
             "message": f"Financial statement {statement_type} updated for {doc_id}",
@@ -1038,30 +1066,110 @@ def remove_duplicate_segment_data(segment_data):
 @app.get("/validate-financial-statements")
 async def validate_financial_statements_endpoint(
     company_name: str,
-    quarter: str
+    quarter: str,
+    statement_type: str = None
 ):
-    # need to add proper code here
-    pass
+    """
+    Validate financial statements for a company and quarter.
+    
+    Args:
+        company_name: Company symbol/name
+        quarter: Quarter period (e.g., Q1FY24)
+        statement_type: Which statement to validate. Options: 'standalone_pl', 'consolidated_pl', 
+                      'standalone_segment', 'consolidated_segment', or 'all' if not specified
+        
+    Returns:
+        Structured validation results for the specified statement type(s)
+    """
+    try:
+        # Define the blob path to retrieve financial data
+        blob_path = f"{company_name}/outputs/quarters/{quarter}/financial_result/{company_name}_{quarter}_financial_statements.json"
+        
+        # Get the blob client
+        blob_client = container_client_mvp.get_blob_client(blob_path)
+        
+        # Check if the blob exists
+        if not blob_client.exists():
+            raise HTTPException(
+                status_code=404,
+                detail=f"Financial statements not found for {company_name} {quarter}"
+            )
+        
+        # Download and parse the financial data
+        financial_data_json = blob_client.download_blob().readall().decode("utf-8")
+        financial_data_raw = json.loads(financial_data_json)
 
+        # Map statement_type parameter to the model
+        statement_type_map = {
+            "standalone_pl": "standalone_profit_and_loss",
+            "consolidated_pl": "consolidated_profit_and_loss",
+            "standalone_segment": "standalone_segment_information", 
+            "consolidated_segment": "consolidated_segment_information"
+        }
 
+        # Skip Pydantic validation for now and directly pass the raw data to validate_financial_data
+        if statement_type and statement_type.lower() != "all":
+            if statement_type not in statement_type_map:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Invalid statement_type. Must be one of: {', '.join(statement_type_map.keys())} or 'all'"
+                )
+            
+            # Filter the data to include only the specified statement type
+            filtered_data = {}
+            
+            for period, period_data in financial_data_raw.items():
+                filtered_period_data = {}
+                mapped_type = statement_type_map[statement_type]
+                
+                if mapped_type in period_data:
+                    filtered_period_data[mapped_type] = period_data[mapped_type]
+                    filtered_data[period] = filtered_period_data
+            
+            
+            # Run validation on filtered data
+            validation_results = validate_financial_data({"root": filtered_data})
+            logger.info(f"Validating only {statement_type}")
+            logger.info(f"Validation results: {validation_results}")
+        else:
+            # Run validation on all data
+            validation_results = validate_financial_data({"root": financial_data_raw})
+            logger.info("Validating all statement types")
+
+        # Format the validation results
+        formatted_results = format_validation_results(validation_results)
+        
+        # Add metadata to the response
+        formatted_results["company_name"] = company_name
+        formatted_results["quarter"] = quarter
+        formatted_results["statement_type"] = statement_type or "all"
+        
+        return formatted_results
+    
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        logger.error(f"Error validating financial statements: {str(e)}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+    
 @app.get("/download-tables-excel")
 async def download_tables_excel(
     company_name: str,
     quarter: str,
     document_type: str,
-    page_number: int
+    page_number: str  # Changed to str to accept 'all'
 ):
     """
-    Download tables from a specific page of a document as an Excel file.
+    Download tables from a specific page or all pages of a document as an Excel file.
     
     Args:
         company_name: Company symbol/name
         quarter: Quarter period (e.g., Q1FY24)
         document_type: Type of document (FinancialResult or InvestorPresentation)
-        page_number: The page number to extract tables from
+        page_number: The page number to extract tables from, or 'all' for all pages
         
     Returns:
-        Excel file containing tables from the specified page
+        Excel file containing tables from the specified page(s)
     """
     try:
         # Set the correct output folder
@@ -1089,62 +1197,118 @@ async def download_tables_excel(
         summary_data = blob_client.download_blob().readall().decode("utf-8")
         pages = json.loads(summary_data)
         
-        # Find the specific page
-        target_page = None
-        for page in pages:
-            if page.get("page_number") == page_number:
-                target_page = page
-                break
-        
-        if not target_page:
-            raise HTTPException(
-                status_code=404,
-                detail=f"Page {page_number} not found in the document"
-            )
-        
-        # Get tables from the page
-        tables = target_page.get("tables", [])
-        
-        # Extract table content from the page
-        table_content = extract_table_from_content(target_page.get("original_content", ""))
-        
         # Create Excel file in memory
         output = BytesIO()
         
         # Create ExcelWriter object
         with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-            # If there are tables
-            if tables:
+            # Determine if we should process all pages or just one
+            if page_number.lower() == 'all':
+                # Process all pages with tables
+                target_pages = [page for page in pages if page.get("tables", [])]
+                
+                if not target_pages:
+                    # Create a sheet with a message if no tables found
+                    pd.DataFrame({"Message": ["No tables found in this document"]}).to_excel(
+                        writer, sheet_name="Info", index=False
+                    )
+            else:
+                # Try to convert page_number to integer
+                try:
+                    page_num_int = int(page_number)
+                except ValueError:
+                    raise HTTPException(
+                        status_code=400,
+                        detail=f"Invalid page_number. Must be a number or 'all'"
+                    )
+                
+                # Find the specific page
+                target_pages = [page for page in pages if page.get("page_number") == page_num_int]
+                
+                if not target_pages:
+                    raise HTTPException(
+                        status_code=404,
+                        detail=f"Page {page_number} not found in the document or has no tables"
+                    )
+            
+            # Process each target page
+            for target_page in target_pages:
+                page_num = target_page.get("page_number")
+                sheet_name = f"Page {page_num}"
+                
+                # Get tables from the page
+                tables = target_page.get("tables", [])
+                
+                # If the page has no tables, skip it
+                if not tables:
+                    continue
+                
+                # Extract table content from the page
+                table_content = extract_table_from_content(target_page.get("original_content", ""))
+                
+                # Get the workbook and create a new worksheet
+                workbook = writer.book
+                worksheet = workbook.add_worksheet(sheet_name)
+                
+                # Start from row 0
+                current_row = 0
+                max_col_width = {}  # To track column widths
+                
+                # Process each table
                 for i, table in enumerate(tables):
-                    # Get table caption
-                    table_caption = table.get("table_caption", f"Table {i+1}")
+                    # # Get table caption
+                    # table_caption = table.get("table_caption", f"Table {i+1}")
+                    
+                    # # Write the table caption with merged cells
+                    # bold_format = workbook.add_format({'bold': True})
+                    # worksheet.write(current_row, 0, table_caption, bold_format)
+                    # current_row += 1
                     
                     # Get table data (use extracted table_content if available for first table)
                     data = table_content if table_content and i == 0 else [[]]
                     
-                    # Convert to DataFrame (handle empty tables)
+                    # Only process the table if it has data
                     if data and len(data) > 0 and len(data[0]) > 0:
-                        # Use first row as header if possible
+                        # Write headers with bold format
                         headers = data[0]
-                        df = pd.DataFrame(data[1:], columns=headers)
+                        header_format = workbook.add_format({'bold': True, 'border': 1})
+                        
+                        for col, header in enumerate(headers):
+                            worksheet.write(current_row, col, header, header_format)
+                            # Track column width based on header length
+                            max_col_width[col] = max(max_col_width.get(col, 0), len(str(header)))
+                        
+                        current_row += 1
+                        
+                        # Write data
+                        for row_idx, row_data in enumerate(data[1:]):
+                            for col, cell in enumerate(row_data):
+                                if col < len(headers):  # Only write if within header length
+                                    worksheet.write(current_row, col, cell)
+                                    # Track column width
+                                    max_col_width[col] = max(max_col_width.get(col, 0), len(str(cell)))
+                            current_row += 1
                     else:
-                        # Create empty DataFrame with just the table caption
-                        df = pd.DataFrame({"Table Caption": [table_caption]})
+                        # Write a "No data" message for empty tables
+                        worksheet.write(current_row, 0, "No data available")
+                        current_row += 1
                     
-                    # Write DataFrame to Excel sheet
-                    sheet_name = f"Table {i+1}"
-                    df.to_excel(writer, sheet_name=sheet_name, index=False)
-            else:
-                # Create a sheet with a message if no tables found
-                pd.DataFrame({"Message": ["No tables found on this page"]}).to_excel(
-                    writer, sheet_name="Info", index=False
-                )
+                    # Add a gap of 3 rows between tables (only if not the last table)
+                    if i < len(tables) - 1:
+                        current_row += 3
+                
+                # Set column widths
+                for col, width in max_col_width.items():
+                    worksheet.set_column(col, col, width + 2)  # Add padding
         
         # Set pointer at the beginning of the stream
         output.seek(0)
         
         # Set filename
-        filename = f"{company_name}_{quarter}_{document_type}_page{page_number}_tables.xlsx"
+        if page_number.lower() == 'all':
+            filename = f"{company_name}_{quarter}_{document_type}_all_tables.xlsx"
+        else:
+            filename = f"{company_name}_{quarter}_{document_type}_page{page_number}_tables.xlsx"
         
         # Return Excel file
         return StreamingResponse(

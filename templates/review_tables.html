@@ -117,6 +117,22 @@
             max-height: 400px;
             overflow-y: auto;
         }
+        .row-controls {
+            display: flex;
+            gap: 5px;
+        }
+        .move-button {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 2px 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .move-button:hover {
+            background-color: #5a6268;
+        }
     </style>
 </head>
 <body>
@@ -139,7 +155,7 @@
         <div class="table-container" id="table-{{ table.table_id }}">
             <div class="table-info">
                 <h2>Page {{ table.page_number }} - Table {{ table.table_id.split('_')[1]|int + 1 }}</h2>
-                <p><strong>Page Summary:</strong> {{ table.page_summary }}</p>
+                <p><strong>Page Summary:</strong> <input type="text" id="page-summary-{{ table.table_id }}" value="{{ table.page_summary }}" style="width: 80%;"></p>
                 <p><strong>Table Caption:</strong> <input type="text" id="caption-{{ table.table_id }}" value="{{ table.table_caption }}" style="width: 80%;"></p>
                 <p><strong>Table Description:</strong> <input type="text" id="summary-{{ table.table_id }}" value="{{ table.table_summary }}" style="width: 80%;"></p>
             </div>
@@ -150,18 +166,28 @@
                     {% for row in table.table_content %}
                     <tr>
                         {% set row_loop = loop %}
+                        <td style="width: 80px;">
+                            <div class="row-controls">
+                                <button onclick="moveRowUp('{{ table.table_id }}', this)" class="move-button" title="Move Up">↑</button>
+                                <button onclick="moveRowDown('{{ table.table_id }}', this)" class="move-button" title="Move Down">↓</button>
+                                <button onclick="deleteRow('{{ table.table_id }}', this)" class="move-button" title="Delete Row" style="background-color: #dc3545;">×</button>
+                            </div>
+                        </td>
                         {% for cell in row %}
                         <td>
                             <input type="text" 
                                 id="cell-{{ table.table_id }}-{{ row_loop.index0 }}-{{ loop.index0 }}"
                                 value="{{ cell }}" 
-                                class="{% if row_loop.index0 == 0 or loop.index0 == 0 %}readonly{% else %}{% if cell|is_numeric %}editable{% else %}readonly{% endif %}{% endif %}"
-                                {% if row_loop.index0 == 0 or loop.index0 == 0 %}readonly{% endif %}>
+                                class="editable">
                         </td>
                         {% endfor %}
                     </tr>
                     {% endfor %}
                 </table>
+                <div class="button-container" style="text-align: left; margin-bottom: 10px;">
+                    <button onclick="addNewRow('{{ table.table_id }}')" class="save-button" style="background-color: #007bff;">Add New Row</button>
+                    <button onclick="addNewColumn('{{ table.table_id }}')" class="save-button" style="background-color: #6610f2; margin-left: 10px;">Add New Column</button>
+                </div>
                 {% else %}
                 <div class="no-tables">
                     <p>No table content found on this page.</p>
@@ -185,10 +211,159 @@
     {% endif %}
     
     <script>
+        function addNewRow(tableId) {
+            const table = document.querySelector(`#table-${tableId} table`);
+            if (!table) {
+                alert("Cannot add row to an empty table");
+                return;
+            }
+            
+            // Get the number of columns from the first row, or default to 2 for empty tables
+            let numColumns = 1; // Default to 1 for control column
+            if (table.rows.length > 0) {
+                numColumns = table.rows[0].cells.length - 1; // Subtract 1 for control column
+            } else {
+                numColumns = 2; // Default to 2 data columns for empty tables (plus 1 control column)
+            }
+            
+            // Create a new row
+            const newRow = table.insertRow();
+            newRow.classList.add('new-row');
+            
+            // Current number of rows (0-indexed, after insertion)
+            const rowIndex = table.rows.length - 1;
+            
+            // Add a cell for row control buttons first
+            const controlCell = newRow.insertCell(0);
+            controlCell.style.width = '80px';
+            controlCell.innerHTML = `
+                <div class="row-controls">
+                    <button onclick="moveRowUp('${tableId}', this)" class="move-button" title="Move Up">↑</button>
+                    <button onclick="moveRowDown('${tableId}', this)" class="move-button" title="Move Down">↓</button>
+                    <button onclick="deleteRow('${tableId}', this)" class="move-button" title="Delete Row" style="background-color: #dc3545;">×</button>
+                </div>
+            `;
+            
+            // Add cells with empty input fields
+            for (let i = 0; i < numColumns; i++) {
+                const cell = newRow.insertCell(i+1);
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.id = `cell-${tableId}-${rowIndex}-${i}`;
+                input.className = 'editable';
+                input.value = '';
+                
+                // First column often contains a label/category
+                if (i === 0) {
+                    input.value = 'New item';
+                }
+                
+                cell.appendChild(input);
+            }
+            
+            // Scroll to the new row
+            newRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        function addNewColumn(tableId) {
+            const table = document.querySelector(`#table-${tableId} table`);
+            if (!table) {
+                alert("Table not found");
+                return;
+            }
+            
+            const rows = table.rows;
+            const numRows = rows.length;
+            
+            // If there are no rows, create one first
+            if (numRows === 0) {
+                addNewRow(tableId);
+                return;
+            }
+            
+            // For each row, add a new cell at the end
+            for (let i = 0; i < numRows; i++) {
+                const row = rows[i];
+                const newColIndex = row.cells.length;
+                const newCell = row.insertCell(newColIndex);
+                
+                // Create input element for the new cell
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.id = `cell-${tableId}-${i}-${newColIndex - 1}`; // Adjust index for control column
+                input.className = 'editable';
+                input.value = '';
+                
+                // Add a header value if this is the first row
+                if (i === 0) {
+                    input.value = `Column ${newColIndex}`;
+                }
+                
+                newCell.appendChild(input);
+            }
+            
+            // Update IDs to ensure they remain sequential
+            updateRowIds(tableId);
+        }
+        
+        function moveRowUp(tableId, buttonElement) {
+            const row = buttonElement.closest('tr');
+            const prevRow = row.previousElementSibling;
+            
+            if (prevRow) {
+                // Can't move above the header row (index 0)
+                if (prevRow.rowIndex === 0) {
+                    return;
+                }
+                
+                // Swap with previous row
+                row.parentNode.insertBefore(row, prevRow);
+                updateRowIds(tableId);
+            }
+        }
+        
+        function moveRowDown(tableId, buttonElement) {
+            const row = buttonElement.closest('tr');
+            const nextRow = row.nextElementSibling;
+            
+            if (nextRow) {
+                // Swap with next row
+                row.parentNode.insertBefore(nextRow, row);
+                updateRowIds(tableId);
+            }
+        }
+        
+        function deleteRow(tableId, buttonElement) {
+            const row = buttonElement.closest('tr');
+            
+            // Confirm deletion
+            if (confirm('Are you sure you want to delete this row?')) {
+                row.parentNode.removeChild(row);
+                updateRowIds(tableId);
+            }
+        }
+        
+        function updateRowIds(tableId) {
+            // Update all input IDs to match their new positions
+            const table = document.querySelector(`#table-${tableId} table`);
+            const rows = table.querySelectorAll('tr');
+            
+            rows.forEach((row, rowIndex) => {
+                const inputs = row.querySelectorAll('input');
+                inputs.forEach((input, colIndex) => {
+                    // Control buttons are in the first cell, so actual data columns start at index 1
+                    if (input.id.startsWith(`cell-${tableId}-`)) {
+                        input.id = `cell-${tableId}-${rowIndex}-${colIndex}`;
+                    }
+                });
+            });
+        }
+
         function saveTable(docId, tableId) {
             // Get table caption and summary
             const tableCaption = document.getElementById(`caption-${tableId}`).value;
             const tableSummary = document.getElementById(`summary-${tableId}`).value;
+            const pageSummary = document.getElementById(`page-summary-${tableId}`).value;
             
             // Build table data from inputs
             const tableData = [];
@@ -202,8 +377,9 @@
             const rows = table.querySelectorAll('tr');
             rows.forEach((row, rowIndex) => {
                 const rowData = [];
-                const cells = row.querySelectorAll('input');
-                cells.forEach((cell) => {
+                // Skip the control cells
+                const inputs = row.querySelectorAll('input');
+                inputs.forEach((cell) => {
                     rowData.push(cell.value);
                 });
                 tableData.push(rowData);
@@ -213,6 +389,7 @@
             const updatedTable = {
                 table_caption: tableCaption,
                 table_summary: tableSummary,
+                page_summary: pageSummary,
                 table_content: tableData
             };
             
