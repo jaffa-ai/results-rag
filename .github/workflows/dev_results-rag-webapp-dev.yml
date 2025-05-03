@@ -68,5 +68,5 @@ jobs:
         with:
           app-name: 'results-rag-webapp-dev'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_DEV }}
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_DEV }}
           
